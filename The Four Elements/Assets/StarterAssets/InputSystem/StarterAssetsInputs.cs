@@ -16,7 +16,7 @@ namespace StarterAssets
 		public bool leftAttack;
 		public bool rightAttack;
 
-
+		public bool movementLocked { get; set; } = false;
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -27,7 +27,8 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
 		{
-			MoveInput(value.Get<Vector2>());
+			MoveInput(value.Get<Vector2>());	
+			
 		}
 
 		public void OnLeftAttack(InputValue value)

@@ -1,9 +1,10 @@
 using System;
+using Animancer;
 using UnityEngine;
 
 public class GroundState : State
 {
-    public GroundState(Player player, string animationParameter, StateMachine stateMachine) : base(player, animationParameter, stateMachine)
+    public GroundState(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips,AnimancerComponent animancer) : base(player, animationParameter, stateMachine, stateClips,animancer)
     {
     }
 

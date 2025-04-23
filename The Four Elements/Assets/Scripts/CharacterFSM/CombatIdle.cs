@@ -1,4 +1,5 @@
 using System;
+using Animancer;
 using UnityEngine;
 
 public class CombatIdle : GroundState
@@ -9,7 +10,7 @@ public class CombatIdle : GroundState
     // Update is called once per frame
 
 
-    public CombatIdle(Player player, string animationParameter, StateMachine stateMachine) : base(player, animationParameter, stateMachine)
+    public CombatIdle(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips,AnimancerComponent animancer) : base(player, animationParameter, stateMachine, stateClips,animancer)
     {
     }
 

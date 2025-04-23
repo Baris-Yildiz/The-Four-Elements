@@ -1,51 +1,60 @@
+using Animancer;
 using UnityEngine;
 
 public class MoveState : GroundState
 {
-    public MoveState(Player player, string animationParameter, StateMachine stateMachine) : base(player, animationParameter, stateMachine)
+
+    protected LinearMixerState linearMixerState = new LinearMixerState();
+    //private LinearMixerState combatMoveState = new LinearMixerState();
+    public MoveState(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips,AnimancerComponent animancer, float walkingT , float runningT) : base(player, animationParameter, stateMachine, stateClips,animancer)
     {
+        linearMixerState.Add(stateClips[0], 0);
+        linearMixerState.Add(stateClips[1], walkingT);
+        linearMixerState.Add(stateClips[2], runningT);
     }
 
     public override void Enter()
     {
         if (player._controller != null)
         {
-            player._controller.SetMoveSpeedMultiplier(1f);    
+           player._controller.SetMoveSpeedMultiplier(1f);  
+            
         }
         else
         {
             Debug.Log("charcter controller is null");
         }
-
-
+        PlayLocomotion();
     }
 
     public override void Update()
     {
-        //Debug.Log(player.animator );
-        //Debug.Log(player._controller);
-        
-        player.animator.SetFloat(animationParameter , player._controller._animationBlend);
-        
-        
-        
-        if (player._controller._verticalVelocity < -2.5f)
+        SetSpeed();
+        if (player._controller._verticalVelocity < -3.5f)
         {
+            Debug.Log(player._controller._verticalVelocity);
             stateMachine.ChangeState(player.fallState);
-        }
-        else if (player._controller._input.leftAttack)
-        {
-            stateMachine.ChangeState(player.attackState);
-            
         }
         else if(player._controller._input.jump)
         {
             stateMachine.ChangeState(player.jumpState);
         }
+        
     }
 
     public override void Exit()
     {
         base.Exit();
+    }
+
+    public void PlayLocomotion()
+    {
+        animancer.Play(linearMixerState, 0.3f);
+    }
+
+    public void SetSpeed()
+    {
+        linearMixerState.Parameter = player._controller._animationBlend;
+        
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Animancer;
 using UnityEngine;
 
 public class IdleState : GroundState
@@ -8,7 +9,7 @@ public class IdleState : GroundState
     // Update is called once per frame
 
 
-    public IdleState(Player player, string animationParameter, StateMachine stateMachine) : base(player, animationParameter, stateMachine)
+    public IdleState(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips,AnimancerComponent animancer) : base(player, animationParameter, stateMachine, stateClips,animancer)
     {
     }
 
@@ -26,7 +27,7 @@ public class IdleState : GroundState
         }
         else if (player._controller._speed > 0)
         {
-            stateMachine.ChangeState(player.moveState);
+            stateMachine.ChangeState(player.NonCombatMoveState);
             
         }
     }

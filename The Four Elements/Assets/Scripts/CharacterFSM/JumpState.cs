@@ -1,15 +1,17 @@
+using Animancer;
 using UnityEngine;
 
 public class JumpState : AirState
 {
-    public JumpState(Player player, string animationParameter, StateMachine stateMachine) : base(player, animationParameter, stateMachine)
+    public JumpState(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips,AnimancerComponent animancer) : base(player, animationParameter, stateMachine, stateClips,animancer)
     {
     }
 
     public override void Enter()
     {
-        player.animator.SetBool(animationParameter , true);
+       // player.animator.SetBool(animationParameter , true);
         player._controller.SetMoveSpeedMultiplier(0.5f);
+        animancer.Play(animationClips[0], 0.15f , FadeMode.FixedDuration);
     }
 
     public override void Update()
@@ -22,7 +24,7 @@ public class JumpState : AirState
 
     public override void Exit()
     {
-        player.animator.SetBool(animationParameter , false);
+        //player.animator.SetBool(animationParameter , false);
         player._controller.SetMoveSpeedMultiplier(1f);
     }
 }
