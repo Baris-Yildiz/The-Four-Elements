@@ -66,8 +66,12 @@ public class SpellManager : MonoBehaviour
         {
             Transform[] targetArray = new Transform[1];
             targetArray[0] = target;
-            print(target);
-            spellObj.GetComponent<MagicFX5_EffectSettings>().Targets = targetArray;
+
+            if (spellObj.TryGetComponent<MagicFX5_EffectSettings>(out MagicFX5_EffectSettings component))
+            {
+                component.Targets = targetArray;
+            }
+            //spellObj.GetComponent<MagicFX5_EffectSettings>().Targets = targetArray;
         };
         poolManagers[CurrentSpellIndex].SpawnPooledObject(raycastStartTransform.position, Quaternion.identity);
     }
