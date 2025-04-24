@@ -57,4 +57,9 @@ public class MoveState : GroundState
         linearMixerState.Parameter = player._controller._animationBlend;
         
     }
+
+    public void StopLocomotion()
+    {
+        animancer.Play(linearMixerState , 0.3f).Time = 0;
+    }
 }

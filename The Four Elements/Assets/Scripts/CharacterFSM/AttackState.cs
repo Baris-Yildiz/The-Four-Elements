@@ -28,7 +28,7 @@ public class AttackState : GroundState
        
         _requestNextAttack = false;
         player._controller._input.leftAttack = false;
-        player._controller._input.move = Vector2.zero;
+        player.swordCollider.enabled = true;
         player._controller.SetMoveSpeedMultiplier(0f);
         animancer.Animator.applyRootMotion = true;
         float dist = 1000f;
@@ -64,7 +64,7 @@ public class AttackState : GroundState
 
         AnimationClip clipToPlay = animationClips[_currentAttackIndex % _maxAttacks];
         lastIndex = _currentAttackIndex;
-        _currentState = animancer.Play(clipToPlay, 0.1f, FadeMode.FixedDuration);
+        _currentState = animancer.Play(clipToPlay, 0.2f, FadeMode.FixedDuration);
         _currentState.Speed = 2f;
 
         _currentState.Events(_currentState).OnEnd = null;
@@ -141,7 +141,7 @@ public class AttackState : GroundState
     {
         base.Exit();
         startMoving = false;
-        player._controller._input.move = Vector2.zero;
+        player.swordCollider.enabled = false;
         animancer.Animator.applyRootMotion = false;
         _currentAttackIndex = 0;
         _requestNextAttack = false;

@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     [field:SerializeField]public ThirdPersonController _controller { get; private set; }
     [SerializeField] private PlayerEvents events;
     [SerializeField] private AvatarMask upperBodyMask;
+    [SerializeField] private AvatarMask leftHandMask;
+    [SerializeField] private AvatarMask rightHandMask;
     [SerializeField] private float walkingT = 0.3f;
     [SerializeField] private float runningT = 0.6f;
     public StateMachine stateMachine { get; private set; }
@@ -39,15 +41,23 @@ public class Player : MonoBehaviour
     public bool IsCombatState { get; set; } = false;
     public Transform target { get; set; }
     [field: SerializeField] public float range { get; private set; }
+    [field: SerializeField] public BoxCollider swordCollider { get; private set; }
+    [SerializeField] private GameObject sheatedSword;
+    [SerializeField] private GameObject unsheatedSword;
 
     private void Awake()
     {
-        
+        sheatedSword.SetActive(true);
+        unsheatedSword.SetActive(false);
+
+        swordCollider.enabled = false;
         stateMachine = new StateMachine();
         InitializeStates();
         stateMachine.Initialize(NonCombatMoveState);
         animancer.Layers[1].Mask = upperBodyMask;
         animancer.Layers[1].IsAdditive = false;
+        animancer.Layers[2].Mask = leftHandMask;
+        animancer.Layers[2].IsAdditive = false;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -91,7 +101,17 @@ public class Player : MonoBehaviour
             Debug.DrawLine(new Vector3(transform.position.x , transform.position.y +0.5f , transform.position.z) , target.position , Color.black);
 
         }
+    }
 
-        //Debug.DrawLine(new Vector3(transform.position.x , transform.position.y +0.5f , transform.position.z) , target.position , Color.black);
+    public void SheatSword()
+    {
+        unsheatedSword.SetActive(false);
+        sheatedSword.SetActive(true);
+    }
+
+    public void UnsheatSword()
+    {
+        unsheatedSword.SetActive(true);
+        sheatedSword.SetActive(false);
     }
 }

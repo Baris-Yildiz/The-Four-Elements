@@ -19,12 +19,16 @@ public class IdleToCombatState: State
         player._controller._input.leftAttack = false;
         AnimancerState state = null; 
         state = animancer.Layers[1].Play(animationClips[0], 0.3f);
+        state.Events(state, out AnimancerEvent.Sequence events);
+        events.Add(0.15f, player.UnsheatSword);
+        player.KatanaMoveState.PlayLocomotion();
         state.Events(state).OnEnd = null;
         state.Events(state).OnEnd = ChangeToAttack;
     }
 
     public override void Update()
     {
+        player.KatanaMoveState.SetSpeed();
         if (player._controller._input.leftAttack)
         {
             _requestNextAttack = true;
@@ -42,7 +46,9 @@ public class IdleToCombatState: State
     {
         _requestNextAttack = false;
         player._controller._input.leftAttack = false;
-        animancer.Layers[1].StartFade(0 , 0.6f);
+        //animancer.Layers[1].Weight = 0f;
+        animancer.Layers[1].StartFade(0 , 0.3f);
+       // player.KatanaMoveState.StopLocomotion();
         player._controller.SetMoveSpeedMultiplier(1f);
     }
 

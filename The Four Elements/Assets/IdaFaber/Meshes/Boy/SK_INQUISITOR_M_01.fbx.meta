@@ -335,22 +335,6 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: m_inquisitor_eye_l
-      humanName: LeftEye
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: m_inquisitor_eye_r
-      humanName: RightEye
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
     - boneName: thumb_01_l
       humanName: Left Thumb Proximal
       limit:
@@ -599,14 +583,6 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: m_jaw
-      humanName: Jaw
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
     skeleton:
     - name: SK_INQUISITOR_M_01(Clone)
       parentName: 
@@ -623,18 +599,18 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: root
+    - name: pelvis
       parentName: SK_INQUISITOR_M_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
     - name: center_of_mass
-      parentName: root
+      parentName: pelvis
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: ik_foot_root
-      parentName: root
+      parentName: pelvis
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
@@ -649,7 +625,7 @@ ModelImporter:
       rotation: {x: 0.70588654, y: 0.041375536, z: 0.70424664, w: -0.06363155}
       scale: {x: 1, y: 1, z: 1}
     - name: ik_hand_root
-      parentName: root
+      parentName: pelvis
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
@@ -669,17 +645,17 @@ ModelImporter:
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
     - name: interaction
-      parentName: root
+      parentName: pelvis
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: pelvis
-      parentName: root
+    - name: root
+      parentName: pelvis
       position: {x: 3.4314998e-19, y: -0.022808662, z: 0.9589678}
       rotation: {x: -0.02241497, y: 0.7067514, z: -0.02241497, w: 0.7067514}
       scale: {x: 1, y: 1, z: 1}
     - name: spine_01
-      parentName: pelvis
+      parentName: root
       position: {x: -0.04742098, y: -0.0027459306, z: -4.6633693e-18}
       rotation: {x: 0, y: 0, z: 0.1258295, w: 0.9920519}
       scale: {x: 1, y: 1, z: 1}
@@ -848,23 +824,23 @@ ModelImporter:
       position: {x: -0.050820343, y: 7.2719605e-17, z: -9.992007e-18}
       rotation: {x: 0.5979965, y: 0.74785584, z: 0.18004124, w: -0.22515999}
       scale: {x: 1, y: 1, z: 1}
-    - name: spine_02
+    - name: spine_04
       parentName: spine_01
       position: {x: -0.06795057, y: -7.105427e-17, z: 1.8559422e-18}
       rotation: {x: 0, y: 0, z: -0.030228594, w: 0.999543}
       scale: {x: 1, y: 1, z: 1}
-    - name: spine_03
-      parentName: spine_02
+    - name: spine_05
+      parentName: spine_04
       position: {x: -0.07238228, y: 5.3290704e-17, z: 1.2292061e-18}
       rotation: {x: 0, y: 0, z: -0.08744592, w: 0.99616927}
       scale: {x: 1, y: 1, z: 1}
-    - name: spine_04
-      parentName: spine_03
+    - name: spine_02
+      parentName: spine_05
       position: {x: -0.073807105, y: 3.5527136e-17, z: 2.3715982e-18}
       rotation: {x: 0.000003916015, y: -0.00000023195737, z: -0.059129395, w: 0.99825037}
       scale: {x: 1, y: 1, z: 1}
     - name: m_inquisitor_cross_01
-      parentName: spine_04
+      parentName: spine_02
       position: {x: -0.1944154, y: -0.14188051, z: 0.004377222}
       rotation: {x: 0.104933664, y: -0.30140105, z: 0.9340388, w: 0.1603679}
       scale: {x: 1, y: 1, z: 1}
@@ -879,7 +855,7 @@ ModelImporter:
       rotation: {x: -0.11183094, y: -0.14941736, z: -0.58867574, w: 0.78652984}
       scale: {x: 1, y: 1, z: 1}
     - name: spine_05
-      parentName: spine_04
+      parentName: spine_02
       position: {x: -0.194398, y: -0.0000000017817309, z: 8.113019e-15}
       rotation: {x: -0.000003922817, y: -0.000000023326118, z: -0.005946209, w: 0.99998236}
       scale: {x: 1, y: 1, z: 1}
@@ -951,7 +927,7 @@ ModelImporter:
     - name: middle_01_l
       parentName: middle_metacarpal_l
       position: {x: -0.060427584, y: -0.0000004635235, z: -0.00000035212832}
-      rotation: {x: -0.0028450568, y: -0.015685093, z: -0.06702292, w: 0.99762404}
+      rotation: {x: -0.002845057, y: -0.015685095, z: -0.06702293, w: 0.9976241}
       scale: {x: 1, y: 1, z: 1}
     - name: middle_02_l
       parentName: middle_01_l
@@ -1006,12 +982,12 @@ ModelImporter:
     - name: thumb_01_l
       parentName: hand_l
       position: {x: -0.017224437, y: 0.018701643, z: -0.021539772}
-      rotation: {x: 0.546423, y: -0.28259307, z: 0.23986293, w: 0.75101846}
+      rotation: {x: 0.5464231, y: -0.2825931, z: 0.23986295, w: 0.7510185}
       scale: {x: 1, y: 1, z: 1}
     - name: thumb_02_l
       parentName: thumb_01_l
       position: {x: -0.04801841, y: 0.0010558383, z: 0.000104334475}
-      rotation: {x: 0.034501288, y: 0.0032340563, z: -0.052224375, w: 0.99803394}
+      rotation: {x: 0.03450129, y: 0.0032340565, z: -0.05222438, w: 0.998034}
       scale: {x: 1, y: 1, z: 1}
     - name: thumb_03_l
       parentName: thumb_02_l
@@ -1146,7 +1122,7 @@ ModelImporter:
     - name: ring_01_r
       parentName: ring_metacarpal_r
       position: {x: 0.05489809, y: -0.0027702185, z: -0.00019046322}
-      rotation: {x: 0.04686452, y: -0.063562326, z: -0.11911172, w: 0.98973525}
+      rotation: {x: 0.046864524, y: -0.06356233, z: -0.119111724, w: 0.9897353}
       scale: {x: 1, y: 1, z: 1}
     - name: ring_02_r
       parentName: ring_01_r
@@ -1161,7 +1137,7 @@ ModelImporter:
     - name: thumb_01_r
       parentName: hand_r
       position: {x: 0.017228164, y: -0.018705027, z: 0.02153819}
-      rotation: {x: 0.54737616, y: -0.28086466, z: 0.23815125, w: 0.75151736}
+      rotation: {x: 0.54737616, y: -0.2808647, z: 0.23815125, w: 0.7515174}
       scale: {x: 1, y: 1, z: 1}
     - name: thumb_02_r
       parentName: thumb_01_r
@@ -1249,7 +1225,7 @@ ModelImporter:
       rotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
       scale: {x: 1, y: 1, z: 1}
     - name: thigh_l
-      parentName: pelvis
+      parentName: root
       position: {x: 0.023657078, y: -0.0011948572, z: -0.0996909}
       rotation: {x: -0.0007843125, y: 0.027661743, z: 0.028331446, w: 0.9992155}
       scale: {x: 1, y: 1, z: 1}
@@ -1289,7 +1265,7 @@ ModelImporter:
       rotation: {x: 0.07318772, y: -0.0032822117, z: 0.013952341, w: 0.9972152}
       scale: {x: 1, y: 1, z: 1}
     - name: thigh_r
-      parentName: pelvis
+      parentName: root
       position: {x: 0.023657262, y: -0.0011948779, z: 0.099690914}
       rotation: {x: -0.027662154, y: -0.0007843267, z: 0.9992155, w: -0.028331539}
       scale: {x: 1, y: 1, z: 1}

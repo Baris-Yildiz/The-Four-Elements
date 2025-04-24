@@ -12,8 +12,10 @@ public class CombatToIdleState : State
         Debug.Log("ENTERING COMBAT TO IDLE STATE");
         player._controller.SetMoveSpeedMultiplier(0.8f);
         AnimancerState state = null;
-        state = animancer.Layers[1].Play(animationClips[1], 0.3f , FadeMode.FixedDuration);
-        animancer.Layers[1].SetWeight(0.8f);
+        state = animancer.Layers[1].Play(animationClips[1], 0.3f);
+        state.Events(state, out AnimancerEvent.Sequence events);
+        events.Add(0.52f, player.SheatSword);
+       // animancer.Layers[1].SetWeight(0.8f);
         player.NonCombatMoveState.PlayLocomotion();
         state.Events(state).OnEnd = null;
         state.Events(state).OnEnd += () => { stateMachine.ChangeState(player.NonCombatMoveState); };
@@ -28,7 +30,9 @@ public class CombatToIdleState : State
     public override void Exit()
     {
         player._controller.SetMoveSpeedMultiplier(1f);
-        animancer.Layers[1].StartFade(0 , 0.1f);
+        //animancer.Layers[1].Weight = 0f;
+        animancer.Layers[1].StartFade(0 , 0.3f);
+       // player.NonCombatMoveState.StopLocomotion();
         base.Exit();
     }
 }
