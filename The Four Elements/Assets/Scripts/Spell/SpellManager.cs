@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
+    public static SpellManager Instance;
     private int currentSpellIndex;
     public int CurrentSpellIndex
     {
@@ -30,6 +31,19 @@ public class SpellManager : MonoBehaviour
 
     private int spellCount = 0;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,24 +59,26 @@ public class SpellManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SwitchSpellType();
+        }
+        /*
         if (Input.GetKeyDown(KeyCode.Q))
         {
             SpawnSpellObject(dummy);
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SwitchSpellType();
-        }
+        
 
         if (Input.GetKeyDown(KeyCode.E))
         {
             ShootForward();
         }
+        */
     }
 
-    private void SpawnSpellObject(Transform target)
+    public void SpawnSpellObject(Transform target)
     {
         poolManagers[CurrentSpellIndex].OnSpawnPooledObject = (GameObject spellObj) =>
         {
@@ -76,12 +92,12 @@ public class SpellManager : MonoBehaviour
         poolManagers[CurrentSpellIndex].SpawnPooledObject(raycastStartTransform.position, Quaternion.identity);
     }
 
-    private void SwitchSpellType()
+    public void SwitchSpellType()
     {
         CurrentSpellIndex = (CurrentSpellIndex + 1) % spellCount;
     }
 
-    private void ShootForward()
+    public void ShootForward()
     {
         RaycastHit hit;
         Debug.DrawLine(playerCamera.transform.position, playerCamera.Follow.position, Color.black);

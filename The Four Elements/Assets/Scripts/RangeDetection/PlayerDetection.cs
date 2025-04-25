@@ -51,6 +51,7 @@ public class PlayerDetection : MonoBehaviour
                 Debug.Log("Exiting Combat Stance");
                 player.IsCombatState = false;
                 player.target = null;
+                player.playerSkills.projectileSkill.targetDirection = null;
             }
         }
     }
@@ -80,6 +81,7 @@ public class PlayerDetection : MonoBehaviour
                     {
                         minDist = dist;
                         player.target = _enemy.gameObject.transform;
+                        player.playerSkills.projectileSkill.targetDirection = _enemy.gameObject.transform;
                     }
                 }
             }

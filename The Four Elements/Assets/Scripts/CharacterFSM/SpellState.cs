@@ -13,8 +13,9 @@ public class SpellState: State
     {
         AnimancerState state = animancer.Layers[2].Play(animationClips[spellIndex] , 0.2f);
         state.Events(state, out AnimancerEvent.Sequence events);
-
-
+        events.Add(0.28f,player.playerSkills.projectileSkill.Activate);
+        state.Events(state).OnEnd = null;
+        state.Events(state).OnEnd += (() => stateMachine.ChangeState(player.KatanaMoveState));
     }
 
     public override void Update()
@@ -24,6 +25,7 @@ public class SpellState: State
 
     public override void Exit()
     {
+        animancer.Layers[2].StartFade(0 , 0.2f);
         base.Exit();
     }
 }

@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     public FallState fallState{ get; private set; }
     public IdleToCombatState idleToCombatState { get; private set; }
     public CombatToIdleState combatToIdleState { get; private set; }
+    public SpellState spellState { get; private set; }
     public int maxCombo { get; private set; } = 3;
     public bool IsCombatState { get; set; } = false;
     public Transform target { get; set; }
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public BoxCollider swordCollider { get; private set; }
     [SerializeField] private GameObject sheatedSword;
     [SerializeField] private GameObject unsheatedSword;
+    [field: SerializeField] public PlayerSkills playerSkills { get; private set; }
 
     private void Awake()
     {
@@ -70,6 +72,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            stateMachine.ChangeState(spellState);
+        }
+
         //Dodge , Dash 
         stateMachine.currentState.Update();
         
@@ -86,7 +93,8 @@ public class Player : MonoBehaviour
         fallState = new FallState(this, "Fall", stateMachine,airStateClips,animancer);
         idleToCombatState = new IdleToCombatState(this, "ChangeState", stateMachine, stanceChangeClips,animancer);
         combatToIdleState = new CombatToIdleState(this, "ChangeState", stateMachine, stanceChangeClips,animancer);
-        
+        spellState = new SpellState(this, "Spell", stateMachine, basicSpeelClips, animancer);
+
     }
 
     public PlayerEvents PlayerEvent()
