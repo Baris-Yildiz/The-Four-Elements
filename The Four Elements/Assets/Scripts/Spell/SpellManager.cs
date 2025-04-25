@@ -1,11 +1,10 @@
 using Cinemachine;
+using System;
 using UnityEngine;
 
 public class SpellManager : MonoBehaviour
 {
-    public GameObject[] spells;
     private int currentSpellIndex;
-    private GameObject currentSpell;
     public int CurrentSpellIndex
     {
         get
@@ -15,7 +14,6 @@ public class SpellManager : MonoBehaviour
         set
         {
             currentSpellIndex = value;
-            currentSpell = spells[currentSpellIndex];
         }
     }
 
@@ -30,10 +28,14 @@ public class SpellManager : MonoBehaviour
     private PoolManager[] poolManagers;
     private PoolManager invisibleWallPoolManager;
 
+    private int spellCount = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         poolManagers = gameObject.GetComponentsInChildren<PoolManager>();
+        spellCount = poolManagers.Length;
+
         invisibleWallPoolManager = GameObject.Find("InvisibleWallPool").GetComponent<PoolManager>();
         CurrentSpellIndex = 0;
         LayerMask &= ~LayerMask.GetMask("Building", "Ground");
@@ -64,21 +66,19 @@ public class SpellManager : MonoBehaviour
     {
         poolManagers[CurrentSpellIndex].OnSpawnPooledObject = (GameObject spellObj) =>
         {
-            Transform[] targetArray = new Transform[1];
-            targetArray[0] = target;
-
             if (spellObj.TryGetComponent<MagicFX5_EffectSettings>(out MagicFX5_EffectSettings component))
             {
+                Transform[] targetArray = new Transform[1];
+                targetArray[0] = target;
                 component.Targets = targetArray;
             }
-            //spellObj.GetComponent<MagicFX5_EffectSettings>().Targets = targetArray;
         };
         poolManagers[CurrentSpellIndex].SpawnPooledObject(raycastStartTransform.position, Quaternion.identity);
     }
 
     private void SwitchSpellType()
     {
-        CurrentSpellIndex = (CurrentSpellIndex + 1) % spells.Length;
+        CurrentSpellIndex = (CurrentSpellIndex + 1) % spellCount;
     }
 
     private void ShootForward()
