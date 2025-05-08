@@ -15,10 +15,11 @@ public class CombatToIdleState : State
         state = animancer.Layers[1].Play(animationClips[1], 0.3f);
         state.Events(state, out AnimancerEvent.Sequence events);
         events.Add(0.52f, player.SheatSword);
+        events.Add(0.8f, () => { stateMachine.ChangeState(player.NonCombatMoveState); });
        // animancer.Layers[1].SetWeight(0.8f);
         player.NonCombatMoveState.PlayLocomotion();
-        state.Events(state).OnEnd = null;
-        state.Events(state).OnEnd += () => { stateMachine.ChangeState(player.NonCombatMoveState); };
+       // state.Events(state).OnEnd = null;
+       // state.Events(state).OnEnd += () => { stateMachine.ChangeState(player.NonCombatMoveState); };
     }
 
     public override void Update()

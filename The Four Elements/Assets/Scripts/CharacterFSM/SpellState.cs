@@ -19,7 +19,22 @@ public class SpellState: State
     }
 
     public override void Update()
-    {
+    {   
+        /*
+        if (player.target != null)
+        {
+            Vector3 directionToTarget = player.target.position - player.transform.position;
+            directionToTarget.y = 0;
+            if (directionToTarget.sqrMagnitude > 0.001f)
+            {
+            
+                Vector3 newDirection = Vector3.RotateTowards(player.transform.forward, directionToTarget,Mathf.Infinity,0f);
+                player.transform.rotation = Quaternion.LookRotation(newDirection);
+            }
+        }
+        */
+
+        player.KatanaMoveState.SetSpeed();
         base.Update();
     }
 

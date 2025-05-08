@@ -16,8 +16,17 @@ public class KatanaMoveState: MoveState
     public override void Update()
     {
         player.idleToCombatState.remainingTime -= Time.deltaTime;
+
+        if (player._controller._input.spell1)
+        {
+            player.stateMachine.ChangeState(player.spellState);
+            player._controller._input.spell1 = false;
+            return;
+        }
+
         if (player._controller._input.leftAttack)
         {
+            
             stateMachine.ChangeState(player.attackState);
             return;
         }

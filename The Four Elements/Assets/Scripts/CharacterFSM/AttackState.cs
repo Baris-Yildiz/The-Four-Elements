@@ -11,6 +11,7 @@ public class AttackState : GroundState
     private Coroutine _attackMovementCoroutine;
     private bool canStartAnim = false;
     private float range;
+    private float minR = 3.5f;
     private bool startMoving = false;
     private int lastIndex =-1;
     public AttackState(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips, AnimancerComponent animancer)
@@ -25,29 +26,32 @@ public class AttackState : GroundState
     public override void Enter()
     {
         base.Enter();
-       
+        player._controller.SetMoveSpeedMultiplier(0);
         _requestNextAttack = false;
         player._controller._input.leftAttack = false;
         player.swordCollider.enabled = true;
         player._controller.SetMoveSpeedMultiplier(0f);
         animancer.Animator.applyRootMotion = true;
         float dist = 1000f;
+        canStartAnim = true;
         if (player.target != null)
         {
             dist = Mathf.Abs(Vector3.Distance(player.target.transform.position, player.transform.position));
         }
-        if (dist > 2f + range)
+        if (dist > minR + range)
         {
-            PlayAttackAnimation();
             startMoving = false;
+            PlayAttackAnimation();
+            
         }
-        else if (dist <= 2f)
+        else if (dist <= minR)
         {
             animancer.Animator.applyRootMotion = false;
             PlayAttackAnimation();
         }
         else
         {
+            
             startMoving = true;
         }
     }
@@ -59,14 +63,19 @@ public class AttackState : GroundState
             stateMachine.ChangeState(player.KatanaMoveState);
             return;
         }
-        
-        // player._controller.FaceLastMovementDirection();
 
+        if (!canStartAnim)
+        {
+            return;
+        }
+
+        // player._controller.FaceLastMovementDirection();
+        
         AnimationClip clipToPlay = animationClips[_currentAttackIndex % _maxAttacks];
         lastIndex = _currentAttackIndex;
         _currentState = animancer.Play(clipToPlay, 0.2f, FadeMode.FixedDuration);
         _currentState.Speed = 2f;
-
+        canStartAnim = false;
         _currentState.Events(_currentState).OnEnd = null;
         _currentState.Events(_currentState).OnEnd += HandleAnimationEnd;
     }
@@ -80,16 +89,16 @@ public class AttackState : GroundState
         }
         if (player.target != null)
         {
-            
             float dist = Mathf.Abs(Vector3.Distance(player.target.transform.position, player.transform.position));
-            Debug.Log(dist);
-            if (dist > 2f && dist < 2f+range && startMoving)
+//            Debug.Log(dist);
+            if (dist > minR && dist < minR+range && startMoving)
             {
-                RotateTowardsTarget();
-                player._controller.MoveTowardsTarget(player.target.position , 8f);
                 animancer.Animator.applyRootMotion = false;
+                RotateTowardsTarget();
+                player.KatanaMoveState.SetSpeed();
+                player._controller.MoveTowardsTarget(player.target.position , 8f);
             }
-            else if (dist > 2f+range)
+            else if (dist > minR+range)
             {
                 
                 animancer.Animator.applyRootMotion = true;
@@ -98,6 +107,7 @@ public class AttackState : GroundState
             }
             else
             {
+                startMoving = false;
                 RotateTowardsTarget();
                 animancer.Animator.applyRootMotion = false;
                 PlayAttackAnimation();
@@ -108,13 +118,17 @@ public class AttackState : GroundState
 
     private void HandleAnimationEnd()
     {
+
+
+        canStartAnim = true;
         if (_requestNextAttack)
         {
             startMoving = true;
             _requestNextAttack = false;
             _currentAttackIndex++;
-            if (_currentAttackIndex >= _maxAttacks)
+            if (_currentAttackIndex >= _maxAttacks || player._controller._input.spell1 || player._controller._input.spell2)
             {
+                Debug.Log("lalalalalallaaaaaa");
                 _currentAttackIndex = 0;
                 lastIndex = -1;
                 stateMachine.ChangeState(player.KatanaMoveState);

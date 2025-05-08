@@ -244,7 +244,7 @@ namespace StarterAssets
 
         public void MoveTowardsTarget(Vector3 targetPosition, float speed)
         {
-            Debug.LogError(transform.position);
+          //  Debug.LogError(transform.position);
             Vector3 directionToTarget = (targetPosition - transform.position);
             dir = directionToTarget;
             directionToTarget = directionToTarget.normalized;

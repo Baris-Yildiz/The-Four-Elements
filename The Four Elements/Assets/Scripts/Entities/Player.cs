@@ -72,10 +72,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Q))
         {
             stateMachine.ChangeState(spellState);
         }
+        */
 
         //Dodge , Dash 
         stateMachine.currentState.Update();
@@ -110,7 +112,10 @@ public class Player : MonoBehaviour
 
         }
     }
-
+            
+    
+    
+    // Move these two later bruther
     public void SheatSword()
     {
         unsheatedSword.SetActive(false);

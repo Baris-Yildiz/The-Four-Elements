@@ -16,6 +16,9 @@ namespace StarterAssets
 		public bool leftAttack;
 		public bool rightAttack;
 
+		public bool spell1;
+		public bool spell2;
+
 		public bool movementLocked { get; set; } = false;
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -34,6 +37,18 @@ namespace StarterAssets
 		public void OnLeftAttack(InputValue value)
 		{
 			LeftAttackInput(value.isPressed);
+		}
+
+		public void OnSpell1(InputValue value)
+		{
+			Debug.Log("spell1 presed");
+			Spell1Input(value.isPressed);
+		}
+
+		public void OnSpell2(InputValue value)
+		{
+			Debug.Log("spell2 pressed");
+			Spell2Input(value.isPressed);
 		}
 
 		public void OnRightAttack(InputValue value)
@@ -84,6 +99,15 @@ namespace StarterAssets
 		{
 			//Debug.Log(newLeftAttackState);
 			leftAttack = newLeftAttackState;
+		}
+
+		public void Spell1Input(bool newSpell1State)
+		{
+			spell1 = newSpell1State;
+		}
+		public void Spell2Input(bool newSpell2State)
+		{
+			spell2 = newSpell2State;
 		}
 
 		public void RightAttackInput(bool newRightAttackState)
