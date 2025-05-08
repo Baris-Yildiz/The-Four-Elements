@@ -9,7 +9,7 @@ public class CombatToIdleState : State
 
     public override void Enter()
     {
-        Debug.Log("ENTERING COMBAT TO IDLE STATE");
+        //Debug.Log("ENTERING COMBAT TO IDLE STATE");
         player._controller.SetMoveSpeedMultiplier(0.8f);
         AnimancerState state = null;
         state = animancer.Layers[1].Play(animationClips[1], 0.3f);

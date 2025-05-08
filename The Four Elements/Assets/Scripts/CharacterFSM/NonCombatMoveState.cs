@@ -9,7 +9,7 @@ public class NonCombatMoveState: MoveState
 
     public override void Enter()
     {
-        Debug.Log("ENTERING NON COMBAT MOVE STATE");
+        //Debug.Log("ENTERING NON COMBAT MOVE STATE");
         base.Enter();
     }
 

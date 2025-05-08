@@ -48,7 +48,7 @@ public class PlayerDetection : MonoBehaviour
             remainingStanceChangeTime -= Time.deltaTime;
             if (remainingStanceChangeTime <= 0)
             {
-                Debug.Log("Exiting Combat Stance");
+               // Debug.Log("Exiting Combat Stance");
                 player.IsCombatState = false;
                 player.target = null;
                 player.playerSkills.projectileSkill.targetDirection = null;

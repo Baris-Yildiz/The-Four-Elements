@@ -13,7 +13,7 @@ public class IdleToCombatState: State
 
     public override void Enter()
     {
-        Debug.Log("ENTERING IDLE TO COMBAT STATE");
+        //Debug.Log("ENTERING IDLE TO COMBAT STATE");
         remainingTime = 3f;
         player._controller.SetMoveSpeedMultiplier(0.8f);
         player._controller._input.leftAttack = false;

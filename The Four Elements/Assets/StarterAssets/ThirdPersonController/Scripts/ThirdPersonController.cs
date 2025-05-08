@@ -256,7 +256,7 @@ namespace StarterAssets
            // transform.position += directionToTarget * 2;
             
             
-            Debug.Log($"Moving toward target: {directionToTarget}, Movement: {movement}");
+//            Debug.Log($"Moving toward target: {directionToTarget}, Movement: {movement}");
         }
         public void FaceLastMovementDirection()
         {

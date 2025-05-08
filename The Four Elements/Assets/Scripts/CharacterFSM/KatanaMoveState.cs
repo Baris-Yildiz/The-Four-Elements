@@ -9,7 +9,7 @@ public class KatanaMoveState: MoveState
 
     public override void Enter()
     {
-        Debug.Log("ENTERING KATANA MOVE STATE");
+        //Debug.Log("ENTERING KATANA MOVE STATE");
         base.Enter();
     }
 
