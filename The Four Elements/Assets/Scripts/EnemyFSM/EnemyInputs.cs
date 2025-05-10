@@ -5,9 +5,10 @@ using Random = UnityEngine.Random;
 
 public class EnemyInputs : MonoBehaviour
 {
-    private Enemy enemy;
-    [field:SerializeField] public float attackRange { get; private set; }
+    [field: SerializeField] public float attackRange { get; private set; }
+    [field: SerializeField] public float attackSpeed { get; set; }
     [SerializeField] private float rangeOffset;
+    public Vector3 velocity { get; set; }
     public bool playerDetected { get; set; }
     public bool chasePlayer { get; set; }
     public bool canAttack { get; set; }
@@ -18,31 +19,33 @@ public class EnemyInputs : MonoBehaviour
     {
         canAttack = false;
         playerDetected = false;
-        lastPosition = new Vector3(float.MaxValue , float.MaxValue , float.MaxValue);
-        enemy = GetComponent<Enemy>();
+        lastPosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        
     }
-    
-    void Update()
+
+    private void Update()
     {
+        //Debug.Log(velocity);
         if (!playerDetected)
         {
             canAttack = false;
         }
 
-        if (playerDetected && Vector3.Distance(lastPosition , hitPosition) > attackRange)
+        float attackRangeSqr = attackRange * attackRange;
+
+        if (playerDetected && (lastPosition - hitPosition).sqrMagnitude > attackRangeSqr)
         {
             canAttack = false;
-            Debug.Log(Vector3.Distance(lastPosition , transform.position) + " zazzzzsadasdas");
-            float angle = Random.Range(0f, 360f) * (float)Math.PI / 180;
-            hitPosition = lastPosition + new Vector3((attackRange-rangeOffset) * (float)Math.Cos(angle), 0,
-                (attackRange-rangeOffset) * (float)Math.Sin(360 - angle));
+
+            float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+            float offset = attackRange - rangeOffset;
+
+            hitPosition = lastPosition + new Vector3(offset * Mathf.Cos(angle), 0, offset * Mathf.Sin(angle));
         }
 
-        if (Vector3.Distance(hitPosition, transform.position) <= 0.2f)
+        if ((hitPosition - transform.position).sqrMagnitude <= 0.2f * 0.2f)
         {
             canAttack = true;
         }
     }
-    
-    
 }

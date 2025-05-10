@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buffId: SpeedDebuff
   effectType: 1
-  duration: 0
-  effectIcon: {fileID: 0}
-  audio: {fileID: 0}
-  audioLoop: 0
-  vfx: {fileID: 0}
-  vfxDuration: 0
+  duration: 5
+  attackMultiplier: 1
+  defenseMultiplier: 1
+  healthMultiplier: 1
+  speedMultiplier: 0.1
+  isRefreshable: 1
+  DamageOverTimeAmount: 0
+  DamageOverTimeTickRate: 0

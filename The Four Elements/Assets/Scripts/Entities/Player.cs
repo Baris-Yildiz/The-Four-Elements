@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField]private Animator anim;
     [SerializeField] private ThirdPersonController control;
     public Animator animator { get; private set; }
-   [field:SerializeField] public AnimancerComponent animancer { get; private set; }
+    [field:SerializeField] public AnimancerComponent animancer { get; private set; }
     [field:SerializeField]public ThirdPersonController _controller { get; private set; }
     [SerializeField] private PlayerEvents events;
     [SerializeField] private AvatarMask upperBodyMask;

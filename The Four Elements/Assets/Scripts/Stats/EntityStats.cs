@@ -46,6 +46,7 @@ public class EntityStats : MonoBehaviour
                 elemRes = 1f;
                 break;
         }
+       // Debug.Log(elemRes +" " + enemy.GetFinalDef() );
         return GetFinalAttack() / (elemRes * enemy.GetFinalDef()) * Random.Range(0.8f,1f);
     }
     public float GetFinalDef()

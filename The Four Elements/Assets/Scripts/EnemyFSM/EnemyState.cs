@@ -6,11 +6,11 @@ public abstract class EnemyState
 {
     protected EnemyStateMachine stateMachine;
     protected AnimationClip[] animationClips;
-    protected Enemy enemy;
+    protected EnemyFSMController enemy;
     protected int clipIndex;
     protected AnimancerComponent animancer;
 
-    protected EnemyState( Enemy enemy,EnemyStateMachine stateMachine , AnimationClip[] stateClips,AnimancerComponent animancer)
+    protected EnemyState( EnemyFSMController enemy,EnemyStateMachine stateMachine , AnimationClip[] stateClips,AnimancerComponent animancer)
     {
         this.enemy = enemy;
         this.stateMachine = stateMachine;

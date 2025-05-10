@@ -128,7 +128,7 @@ public class AttackState : GroundState
             _currentAttackIndex++;
             if (_currentAttackIndex >= _maxAttacks || player._controller._input.spell1 || player._controller._input.spell2)
             {
-                Debug.Log("lalalalalallaaaaaa");
+               // Debug.Log("lalalalalallaaaaaa");
                 _currentAttackIndex = 0;
                 lastIndex = -1;
                 stateMachine.ChangeState(player.KatanaMoveState);

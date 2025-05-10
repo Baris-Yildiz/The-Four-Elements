@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyDetection : MonoBehaviour
@@ -7,86 +8,85 @@ public class EnemyDetection : MonoBehaviour
     [SerializeField] private float detectionFreq = 0.5f;
     [SerializeField] private Transform player;
     [SerializeField] private float viewAngle;
+    [SerializeField] private float detectedAngle = 360f;
     [SerializeField] private float viewDistance;
+    [SerializeField] private LayerMask detectionLayer;
+    [SerializeField] private float stopTime = 3f;
+    private float remainingStopTime;
+    [SerializeField] private float tempAngle;
     [SerializeField] private Transform rayPoint;
     private bool canDetect = true;
     public bool isPlayerDetected = false;
 
+    private float cosHalfViewAngle;  // Cosine of half of view angle
+
     private void Awake()
     {
+        tempAngle = viewAngle;
+        remainingStopTime = stopTime;
         enemy = GetComponent<EnemyInputs>();
+        cosHalfViewAngle = Mathf.Cos(tempAngle * 0.5f * Mathf.Deg2Rad);
     }
-
 
     private void Update()
     {
-        if (detectionFreq > 0 &&(detectionFreq -= Time.deltaTime) <= 0)
+        if (detectionFreq > 0 && (detectionFreq -= Time.deltaTime) <= 0)
         {
             canDetect = true;
         }
+
         CheckPlayer();
+
+        UpdateViewAngle();
     }
 
-    private void CheckLos()
+    private void UpdateViewAngle()
     {
-        if ((!enemy.playerDetected && Vector3.Distance(transform.position, enemy.lastPosition) <= 1f))
+        if (!enemy.playerDetected && (remainingStopTime -= Time.deltaTime) <= 0)
         {
-            DetectionCheck();
-            
+            tempAngle = viewAngle;
+            remainingStopTime = stopTime;
+            cosHalfViewAngle = Mathf.Cos(tempAngle * 0.5f * Mathf.Deg2Rad);
         }
     }
-    
+
     private void CheckPlayer()
     {
         if (canDetect)
         {
+            
             DetectionCheck();
-            enemy.chasePlayer =(enemy.playerDetected && Vector3.Distance(transform.position, enemy.lastPosition) > enemy.attackRange) 
-                               || (!enemy.playerDetected && Vector3.Distance(transform.position , enemy.lastPosition) <= 1f);
+            
+            float sqrToLastPos = (transform.position - enemy.lastPosition).sqrMagnitude;
+            enemy.chasePlayer = (enemy.playerDetected && sqrToLastPos > enemy.attackRange * enemy.attackRange) ||
+                                (!enemy.playerDetected && sqrToLastPos <= 1f * 1f);
         }
     }
 
     private void DetectionCheck()
     {
         Vector3 direction = player.position - transform.position;
-        float angle = Vector3.Angle(transform.forward, direction);
-        detectionFreq = 0.5f;
+        float sqrDist = direction.sqrMagnitude;
+
+      
+        Vector3 dirNormalized = direction / Mathf.Sqrt(sqrDist); 
+        float dot = Vector3.Dot(transform.forward, dirNormalized);
+        detectionFreq = 1f;
         canDetect = false;
-        //Debug.Log("detection check");
-        /*
-        if ((Physics.Raycast(rayPoint.position, direction.normalized, out RaycastHit hit1, viewDistance)))
+
+        if (dot >= cosHalfViewAngle &&
+            Physics.Raycast(rayPoint.position, dirNormalized, out RaycastHit hit, viewDistance , detectionLayer) &&
+            hit.transform.CompareTag("Player"))
         {
-            //Debug.Log("lalalalalalalala " + angle);
-            Debug.Log(hit1.transform.tag + " hitted target tag");
-        }
-        */
-        
-        
-        Debug.Log(angle + " " + viewAngle/2 );
-       // Debug.Log((Physics.Raycast(rayPoint.position, direction.normalized, out RaycastHit hit2, viewDistance)));
-        
-        if (angle <= viewAngle / 2 &&
-            (Physics.Raycast(rayPoint.position, direction.normalized, out RaycastHit hit, viewDistance)) && (hit.transform.CompareTag("Player"))
-           ) 
-        {
-            Debug.Log("detection check success " + hit.transform.position);
-            enemy.lastPosition =new Vector3(hit.transform.position.x , 0 , hit.transform.position.z);
+            enemy.lastPosition = new Vector3(hit.transform.position.x, 0, hit.transform.position.z);
             enemy.playerDetected = true;
-                
+            remainingStopTime = stopTime;
+            tempAngle = detectedAngle;
+            cosHalfViewAngle = Mathf.Cos(tempAngle * 0.5f * Mathf.Deg2Rad); 
         }
         else
         {
-            Debug.Log("detection failed");
             enemy.playerDetected = false;
         }
-        
-    }
-
-    private void OnDrawGizmos()
-    {
-        
-        Vector3 direction = player.position - transform.position;
-        Debug.DrawRay(rayPoint.position, direction.normalized * 10, Color.green);
-        //Debug.DrawLine(rayPoint.position , player.position, Color.red);
     }
 }

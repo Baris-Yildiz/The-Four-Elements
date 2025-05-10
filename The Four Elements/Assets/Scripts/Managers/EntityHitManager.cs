@@ -21,8 +21,8 @@ public class EntityHitManager : MonoBehaviour,IDamageable
 
     public void TakeDamage(Entity attacker)
     {
-        Debug.Log(attacker );
-        Debug.Log(entityStats);
+       // Debug.Log(attacker );
+        //Debug.Log(entityStats);
         if (attacker == null)
         {
             Debug.Log("attacker is null");
@@ -41,12 +41,14 @@ public class EntityHitManager : MonoBehaviour,IDamageable
         }
 
         float damage = attacker.stats.CalculateFinalDamage(entityStats);
-        Debug.Log("Enemy current health is : " + entityStats.currentHealth);
+      //  Debug.Log("Enemy current health is : " + entityStats.currentHealth);
+        
         if (entityStats.ChangeHealth(damage) <= 0)
         {
             OnEntityDied?.Invoke();
             return;
         }
+        
         buffManager.AddBuff(attacker.stats.element.OnHitEffectDefinition);
         
         OnHealthChanged?.Invoke(attacker.stats.currentHealth);
