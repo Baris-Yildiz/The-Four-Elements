@@ -20,9 +20,9 @@ public class EnemyLocomotionState: EnemyState
     public override void Update()
     {
         linearMixerState.Parameter = enemy._inputs.velocity.magnitude;
-        if (enemy._inputs.canAttack)
+        if (enemy._inputs.startRotation)
         {
-            stateMachine.ChangeState(enemy._shootingState);
+            stateMachine.ChangeState(enemy._enemyRotationState);
         }
 
         base.Update();

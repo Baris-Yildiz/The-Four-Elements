@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AnimationClip[] basicSpeelClips;
     [SerializeField] private AnimationClip[] skillClips;
     [SerializeField] private AnimationClip[] stanceChangeClips;
+    [SerializeField] private AnimationClip[] katanaSkillClips;
     
     
     
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour
     public FallState fallState{ get; private set; }
     public IdleToCombatState idleToCombatState { get; private set; }
     public CombatToIdleState combatToIdleState { get; private set; }
+    public KatanaSkillState katanaSkillState { get; private set; }
     public SpellState spellState { get; private set; }
     public int maxCombo { get; private set; } = 3;
     public bool IsCombatState { get; set; } = false;
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject sheatedSword;
     [SerializeField] private GameObject unsheatedSword;
     [field: SerializeField] public PlayerSkills playerSkills { get; private set; }
+    
 
     private void Awake()
     {
@@ -72,13 +75,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Q))
+        
+        if (_controller._input.spell2)
         {
-            stateMachine.ChangeState(spellState);
+            stateMachine.ChangeState(katanaSkillState);
+            
         }
-        */
-
         //Dodge , Dash 
         stateMachine.currentState.Update();
         
@@ -96,6 +98,7 @@ public class Player : MonoBehaviour
         idleToCombatState = new IdleToCombatState(this, "ChangeState", stateMachine, stanceChangeClips,animancer);
         combatToIdleState = new CombatToIdleState(this, "ChangeState", stateMachine, stanceChangeClips,animancer);
         spellState = new SpellState(this, "Spell", stateMachine, basicSpeelClips, animancer);
+        katanaSkillState = new KatanaSkillState(this, "KatanaSkill", stateMachine, katanaSkillClips, animancer);
 
     }
 

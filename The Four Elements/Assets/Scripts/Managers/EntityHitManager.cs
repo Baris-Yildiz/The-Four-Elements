@@ -9,6 +9,7 @@ public class EntityHitManager : MonoBehaviour,IDamageable
     private BuffManager buffManager;
     public event Action OnEntityDied;
     public event Action<float> OnHealthChanged;
+    public event Action OnGotHit; 
     [SerializeField]
     private EffectManager effectManager;
 
@@ -46,12 +47,12 @@ public class EntityHitManager : MonoBehaviour,IDamageable
         if (entityStats.ChangeHealth(damage) <= 0)
         {
             OnEntityDied?.Invoke();
-            return;
+            //return;
         }
         
         buffManager.AddBuff(attacker.stats.element.OnHitEffectDefinition);
-        
         OnHealthChanged?.Invoke(attacker.stats.currentHealth);
+        OnGotHit?.Invoke();
     }
 
 }

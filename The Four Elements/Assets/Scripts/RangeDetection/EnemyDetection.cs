@@ -60,6 +60,7 @@ public class EnemyDetection : MonoBehaviour
             float sqrToLastPos = (transform.position - enemy.lastPosition).sqrMagnitude;
             enemy.chasePlayer = (enemy.playerDetected && sqrToLastPos > enemy.attackRange * enemy.attackRange) ||
                                 (!enemy.playerDetected && sqrToLastPos <= 1f * 1f);
+           // Debug.LogWarning(enemy.playerDetected);
         }
     }
 
@@ -78,6 +79,7 @@ public class EnemyDetection : MonoBehaviour
             Physics.Raycast(rayPoint.position, dirNormalized, out RaycastHit hit, viewDistance , detectionLayer) &&
             hit.transform.CompareTag("Player"))
         {
+            //Debug.LogWarning("detected detected");
             enemy.lastPosition = new Vector3(hit.transform.position.x, 0, hit.transform.position.z);
             enemy.playerDetected = true;
             remainingStopTime = stopTime;

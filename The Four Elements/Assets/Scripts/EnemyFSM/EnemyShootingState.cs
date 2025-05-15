@@ -11,17 +11,17 @@ public class EnemyShootingState:EnemyState
     {
         AnimancerState state = animancer.Play(animationClips[0]);
         float duration = state.Length;
-        Debug.Log(duration);
-        Debug.Log( enemy._inputs.attackSpeed);
+//        Debug.Log(duration);
+//        Debug.Log( enemy._inputs.attackSpeed);
         state.Speed = duration / enemy._inputs.attackSpeed;
-        animancer.Play(state, 0.05f);
+        animancer.Play(state, 0.2f);
         base.Enter();
     }
 
     public override void Update()
     {
 
-        if (!enemy._inputs.canAttack)
+        if (!enemy._inputs.startRotation)
         {
             stateMachine.ChangeState(enemy._locomotionState);
         }

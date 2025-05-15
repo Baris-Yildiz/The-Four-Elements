@@ -11,7 +11,7 @@ public class AttackState : GroundState
     private Coroutine _attackMovementCoroutine;
     private bool canStartAnim = false;
     private float range;
-    private float minR = 3.5f;
+    private float minR = 1.5f;
     private bool startMoving = false;
     private int lastIndex =-1;
     public AttackState(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips, AnimancerComponent animancer)
@@ -31,7 +31,7 @@ public class AttackState : GroundState
         player._controller._input.leftAttack = false;
         player.swordCollider.enabled = true;
         player._controller.SetMoveSpeedMultiplier(0f);
-        animancer.Animator.applyRootMotion = true;
+      //  animancer.Animator.applyRootMotion = true;
         float dist = 1000f;
         canStartAnim = true;
         if (player.target != null)
@@ -46,7 +46,7 @@ public class AttackState : GroundState
         }
         else if (dist <= minR)
         {
-            animancer.Animator.applyRootMotion = false;
+           // animancer.Animator.applyRootMotion = false;
             PlayAttackAnimation();
         }
         else
@@ -74,7 +74,7 @@ public class AttackState : GroundState
         AnimationClip clipToPlay = animationClips[_currentAttackIndex % _maxAttacks];
         lastIndex = _currentAttackIndex;
         _currentState = animancer.Play(clipToPlay, 0.2f, FadeMode.FixedDuration);
-        _currentState.Speed = 2f;
+        _currentState.Speed = 1.2f;
         canStartAnim = false;
         _currentState.Events(_currentState).OnEnd = null;
         _currentState.Events(_currentState).OnEnd += HandleAnimationEnd;
@@ -93,7 +93,7 @@ public class AttackState : GroundState
 //            Debug.Log(dist);
             if (dist > minR && dist < minR+range && startMoving)
             {
-                animancer.Animator.applyRootMotion = false;
+               // animancer.Animator.applyRootMotion = false;
                 RotateTowardsTarget();
                 player.KatanaMoveState.SetSpeed();
                 player._controller.MoveTowardsTarget(player.target.position , 8f);
@@ -101,7 +101,7 @@ public class AttackState : GroundState
             else if (dist > minR+range)
             {
                 
-                animancer.Animator.applyRootMotion = true;
+              //  animancer.Animator.applyRootMotion = true;
                 startMoving = false;    
                 PlayAttackAnimation();
             }
@@ -109,7 +109,7 @@ public class AttackState : GroundState
             {
                 startMoving = false;
                 RotateTowardsTarget();
-                animancer.Animator.applyRootMotion = false;
+                //animancer.Animator.applyRootMotion = false;
                 PlayAttackAnimation();
             }
         }

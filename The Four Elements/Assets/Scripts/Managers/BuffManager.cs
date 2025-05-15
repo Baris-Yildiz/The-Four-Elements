@@ -34,7 +34,7 @@ public class BuffManager : MonoBehaviour
             {
                 if (vBuff.isDot && vBuff.IsTickTime(Time.deltaTime))
                 {
-                    Debug.Log("Dot is being applied");
+                   // Debug.Log("Dot is being applied");
                     entity.ChangeHealth(vBuff.buff.DamageOverTimeAmount);
                 }
             }

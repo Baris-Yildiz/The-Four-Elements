@@ -23,6 +23,7 @@ public class KatanaMoveState: MoveState
             player._controller._input.spell1 = false;
             return;
         }
+        
 
         if (player._controller._input.leftAttack)
         {

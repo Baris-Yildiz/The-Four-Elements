@@ -11,6 +11,7 @@ public class SpellState: State
 
     public override void Enter()
     {
+       
         AnimancerState state = animancer.Layers[2].Play(animationClips[spellIndex] , 0.2f);
         state.Events(state, out AnimancerEvent.Sequence events);
         events.Add(0.28f,player.playerSkills.projectileSkill.Activate);

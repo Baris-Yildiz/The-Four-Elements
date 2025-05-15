@@ -17,8 +17,9 @@ public class NavmeshMovement : MonoBehaviour
     [SerializeField] private LayerMask detectionLayer;
     private Entity enemy;
     public float visionStr = 1f;
-    public float rotationSpeed = 180f;
+   // public float rotationSpeed = 180f;
     [SerializeField] private Transform rayPoint;
+    private bool rotationCompleted = false;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -31,10 +32,16 @@ public class NavmeshMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(agent.velocity);
+        if (inputs.gotHit)
+        {
+            agent.enabled = false;
+            return;
+        }
+
+        agent.enabled = true;
         inputs.velocity = agent.velocity;
-        RotateTowardsTarget(rayPoint);
-        if (inputs.playerDetected && inputs.chasePlayer)
+        //RotateTowardsTarget(rayPoint , Mathf.Infinity,false);
+        if (inputs.playerDetected && inputs.chasePlayer || (!inputs.startRotation && !inputs.chasePlayer))
         {
             agent.SetDestination(inputs.hitPosition);
         }
@@ -42,13 +49,12 @@ public class NavmeshMovement : MonoBehaviour
         {
             agent.SetDestination(inputs.lastPosition);
         }
-        else if (inputs.playerDetected && inputs.canAttack )
+        else if (inputs.playerDetected && inputs.startRotation )
         {
-            RotateTowardsTarget(transform);
-            if ((attackCd -= Time.deltaTime) <= 0)
+            RotateTowardsTarget(transform ,inputs.rotationSpeed,true);
+            if (inputs.canAttack && (attackCd -= Time.deltaTime) <= 0)
             {
                 attackCd = inputs.attackSpeed; 
-               // Debug.Log("herererere");
                 Attack();
                                
             }
@@ -81,16 +87,22 @@ public class NavmeshMovement : MonoBehaviour
     }
     */
 
-    void RotateTowardsTarget(Transform source)
+    void RotateTowardsTarget(Transform source , float speed ,bool dotCheck)
     {
+       // Debug.LogWarning("rotating");
         Vector3 directionToTarget = player.position - source.position;
         directionToTarget.y = 0;
         if (directionToTarget.sqrMagnitude > 0.001f)
         {
-            float degree = rotationSpeed * Mathf.Deg2Rad;
-            //Debug.Log();
-            Vector3 newDirection = Vector3.RotateTowards(source.forward, directionToTarget,120*Time.deltaTime,0f);
+            float degree = speed * Mathf.Deg2Rad;
+           // Debug.Log(degree + " degree");
+            Vector3 newDirection = Vector3.RotateTowards(source.forward, directionToTarget,degree*Time.deltaTime,0f);
             source.rotation = Quaternion.LookRotation(newDirection);
+        }
+        if (dotCheck)
+        {
+            inputs.angle = Vector3.SignedAngle(source.transform.forward, directionToTarget, Vector3.up);
+            
         }
     }
 }
