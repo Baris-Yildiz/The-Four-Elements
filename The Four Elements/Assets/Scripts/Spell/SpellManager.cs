@@ -60,10 +60,12 @@ public class SpellManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.R))
         {
             SwitchSpellType();
         }
+        */
         /*
         if (Input.GetKeyDown(KeyCode.Q))
         {

@@ -35,12 +35,15 @@ public class PlayerElementManager : MonoBehaviour
     {
         if (remainingSwitchCooldown <= 0)
         {
+            int index = -1;
             foreach (var entry in switches)
             {
+                index++;
                 if (Input.GetKeyDown(entry.Key))
                 {
                     player_stats.SwitchElement(entry.Value);
                     player_stats.ApplyElementStats();
+                    SpellManager.Instance.CurrentSpellIndex = index;
                     remainingSwitchCooldown = switchCooldown;
                 }
             }
