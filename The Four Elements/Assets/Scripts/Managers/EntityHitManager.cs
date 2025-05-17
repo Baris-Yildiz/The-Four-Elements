@@ -47,7 +47,7 @@ public class EntityHitManager : MonoBehaviour,IDamageable
         if (entityStats.ChangeHealth(damage) <= 0)
         {
             OnEntityDied?.Invoke();
-            //return;
+            return;
         }
         
         buffManager.AddBuff(attacker.stats.element.OnHitEffectDefinition);

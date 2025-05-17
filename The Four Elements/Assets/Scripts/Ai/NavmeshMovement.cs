@@ -37,7 +37,7 @@ public class NavmeshMovement : MonoBehaviour
         //Debug.LogWarning("accleration: " + inputs.navAcceleration);
         agent.speed = inputs.navSpeed;
         agent.acceleration = inputs.navAcceleration;
-        if (inputs.gotHit)
+        if (inputs.gotHit || inputs.isDead)
         {
             agent.enabled = false;
             return;

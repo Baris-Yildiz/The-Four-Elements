@@ -16,6 +16,7 @@ public class EnemyInputs : MonoBehaviour
     [field: SerializeField] public float attackSpeed { get; set; }
     [SerializeField] private float rangeOffset;
     public Vector3 velocity { get; set; }
+    public bool isDead { get; private set; } = false;
     public bool playerDetected { get; set; }
     public bool chasePlayer { get; set; }
     public bool canAttack { get; set; }
@@ -46,17 +47,22 @@ public class EnemyInputs : MonoBehaviour
         _entityHitManager = GetComponent<EntityHitManager>();
     }
 
-   
+    public void SetDied()
+    {
+        isDead = true;
+    }
 
     private void OnEnable()
     {
         _entityHitManager.OnGotHit += SetHitStatus;
+        _entityHitManager.OnEntityDied += SetDied;
         stats.OnStatChange += ApplyStats;
     }
 
     private void OnDisable()
     {
         _entityHitManager.OnGotHit -= SetHitStatus;
+        _entityHitManager.OnEntityDied -= SetDied;
         stats.OnStatChange -= ApplyStats;
     }
 

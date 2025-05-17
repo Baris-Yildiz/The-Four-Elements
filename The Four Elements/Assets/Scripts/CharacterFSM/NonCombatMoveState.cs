@@ -15,6 +15,13 @@ public class NonCombatMoveState: MoveState
 
     public override void Update()
     {
+        if (player._controller._input.spell1)
+        {
+            
+            player.stateMachine.ChangeState(player.spellState);
+            player._controller._input.spell1 = false;
+            return;
+        }
         if (player._controller._input.leftAttack || player.IsCombatState)
         {
             stateMachine.ChangeState(player.idleToCombatState);
