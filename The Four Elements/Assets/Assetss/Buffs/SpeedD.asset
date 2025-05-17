@@ -18,7 +18,7 @@ MonoBehaviour:
   attackMultiplier: 1
   defenseMultiplier: 1
   healthMultiplier: 1
-  speedMultiplier: 0.1
-  isRefreshable: 1
+  speedMultiplier: 0.9
+  isRefreshable: 0
   DamageOverTimeAmount: 0
   DamageOverTimeTickRate: 0

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9163d7d84547efa48a4dbef3b5a4928b, type: 3}
-  m_Name: FireDot
+  m_Name: Soil
   m_EditorClassIdentifier: 
-  buffId: 1
+  buffId: 
   effectType: 1
   duration: 15
   attackMultiplier: 1
   defenseMultiplier: 1
-  healthMultiplier: 1
+  healthMultiplier: 0.8
   speedMultiplier: 1
   isRefreshable: 1
-  DamageOverTimeAmount: 20
+  DamageOverTimeAmount: 0
   DamageOverTimeTickRate: 1

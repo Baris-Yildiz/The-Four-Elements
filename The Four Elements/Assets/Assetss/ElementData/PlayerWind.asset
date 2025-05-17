@@ -9,16 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9163d7d84547efa48a4dbef3b5a4928b, type: 3}
-  m_Name: FireDot
+  m_Script: {fileID: 11500000, guid: 9c17bba5f6e99084f985f803aaa63a30, type: 3}
+  m_Name: PlayerWind
   m_EditorClassIdentifier: 
-  buffId: 1
-  effectType: 1
-  duration: 15
+  elementType: 3
+  ElementName: Wind
   attackMultiplier: 1
-  defenseMultiplier: 1
-  healthMultiplier: 1
-  speedMultiplier: 1
-  isRefreshable: 1
-  DamageOverTimeAmount: 20
-  DamageOverTimeTickRate: 1
+  defenseMultiplier: 0.7
+  healthMultiplier: 0.7
+  speedMultiplier: 1.6
+  OnHitEffectDefinition: {fileID: 11400000, guid: 955c143eef0da404c883095a5942228e, type: 2}

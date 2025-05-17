@@ -1,4 +1,6 @@
-﻿ using UnityEngine;
+﻿ using System;
+ using UnityEngine;
+ using Random = UnityEngine.Random;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -14,6 +16,8 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
+
+        private EntityStats stats;
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -83,6 +87,8 @@ namespace StarterAssets
 
 
         private float _moveSpeedMultiplier = 0.0f;
+
+        public float statSpeedMultiplier = 1f;
         // player
         public float _speed { get; private set; }
         public float _animationBlend { get; private set; }
@@ -94,6 +100,8 @@ namespace StarterAssets
         // timeout deltatime
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
+
+        public bool canJump { get; set; } = true;
 
         // animation IDs
         private int _animIDSpeed;
@@ -129,10 +137,27 @@ namespace StarterAssets
 
         private void Awake()
         {
+            stats = GetComponent<EntityStats>();
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+        }
+
+        private void OnEnable()
+        {
+            stats.OnStatChange += SetStatSpeedMultiplier;
+        }
+
+        private void OnDisable()
+        {
+            stats.OnStatChange -= SetStatSpeedMultiplier;
+        }
+
+        void SetStatSpeedMultiplier()
+        {
+            statSpeedMultiplier = stats.speedMultiplier;
+            
         }
 
         private void Start()
@@ -198,7 +223,7 @@ namespace StarterAssets
         {
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-            targetSpeed *= _moveSpeedMultiplier;
+            targetSpeed *= _moveSpeedMultiplier * statSpeedMultiplier;
 
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
             float speedOffset = 0.1f;
@@ -276,7 +301,7 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
-            if (Grounded)
+            if (Grounded && canJump)
             {
                 
                 _fallTimeoutDelta = FallTimeout;

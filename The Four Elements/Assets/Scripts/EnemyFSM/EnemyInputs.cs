@@ -5,6 +5,13 @@ using Random = UnityEngine.Random;
 
 public class EnemyInputs : MonoBehaviour
 {
+    private EntityStats stats;
+    [SerializeField] private float baseSpeed;
+    [SerializeField] private float baseAcceleration;
+    [SerializeField] private float baseAttackSpeed;
+    [field: SerializeField] public float navSpeed { get; private set; }
+    [field: SerializeField] public float navAcceleration { get; private set; }
+
     [field: SerializeField] public float attackRange { get; private set; }
     [field: SerializeField] public float attackSpeed { get; set; }
     [SerializeField] private float rangeOffset;
@@ -17,7 +24,9 @@ public class EnemyInputs : MonoBehaviour
     public Vector3 lastPosition { get; set; }
     public Vector3 hitPosition { get; set;}
     public float angle {get; set;}
-   [field:SerializeField] public float rotationSpeed { get; set; }
+    [SerializeField] private float accelerationAmount;
+    [SerializeField] private float attackSpeedEffect;
+    [field:SerializeField] public float rotationSpeed { get; set; }
 
 
     private EntityHitManager _entityHitManager;
@@ -28,6 +37,8 @@ public class EnemyInputs : MonoBehaviour
     
     private void Awake()
     {
+        stats = GetComponent<EntityStats>();
+        
         canAttack = false;
         playerDetected = false;
         lastPosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
@@ -35,14 +46,18 @@ public class EnemyInputs : MonoBehaviour
         _entityHitManager = GetComponent<EntityHitManager>();
     }
 
+   
+
     private void OnEnable()
     {
         _entityHitManager.OnGotHit += SetHitStatus;
+        stats.OnStatChange += ApplyStats;
     }
 
     private void OnDisable()
     {
         _entityHitManager.OnGotHit -= SetHitStatus;
+        stats.OnStatChange -= ApplyStats;
     }
 
     private void Update()
@@ -77,6 +92,13 @@ public class EnemyInputs : MonoBehaviour
         gotHit = true;
         startRotation = false;
         canAttack = false;
+    }
+
+    void ApplyStats()
+    {   
+        navSpeed = baseSpeed * stats.speedMultiplier;
+        navAcceleration = baseAcceleration*stats.speedMultiplier / accelerationAmount;
+        attackSpeed = baseAttackSpeed * attackSpeedEffect / stats.speedMultiplier;
     }
 
     public void CalculateHitPosition()

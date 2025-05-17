@@ -36,7 +36,7 @@ public class EnemyRotationState:EnemyState
         float rotSpeed = degrees[index]/state.Length;
         
         state.Speed = Mathf.Abs(enemy._inputs.rotationSpeed / rotSpeed);
-        Debug.LogWarning(state.Speed);
+//        Debug.LogWarning(state.Speed);
         state.Events(state).OnEnd = () =>
         {
            // enemy._inputs.canAttack = true;

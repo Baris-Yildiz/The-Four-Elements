@@ -1,12 +1,14 @@
-﻿using Animancer;
+﻿using System.Linq;
+using Animancer;
 using UnityEngine;
 
 public class SpellState: State
-{
+{ 
     public int spellIndex { get; set; } = 0;
 
     public SpellState(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips, AnimancerComponent animancer) : base(player, animationParameter, stateMachine, stateClips, animancer)
     {
+        
     }
 
     public override void Enter()
@@ -14,6 +16,7 @@ public class SpellState: State
        
         AnimancerState state = animancer.Layers[2].Play(animationClips[spellIndex] , 0.2f);
         state.Events(state, out AnimancerEvent.Sequence events);
+        events.Clear();
         events.Add(0.28f,player.playerSkills.projectileSkill.Activate);
         state.Events(state).OnEnd = null;
         state.Events(state).OnEnd += (() => stateMachine.ChangeState(player.KatanaMoveState));

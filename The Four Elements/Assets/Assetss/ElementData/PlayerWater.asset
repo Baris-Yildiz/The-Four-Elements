@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c17bba5f6e99084f985f803aaa63a30, type: 3}
-  m_Name: IceEnemy
+  m_Name: PlayerWater
   m_EditorClassIdentifier: 
   elementType: 2
   ElementName: Water
-  attackMultiplier: 1.2
+  attackMultiplier: 0.8
   defenseMultiplier: 0.8
-  healthMultiplier: 10
-  speedMultiplier: 2
-  OnHitEffectDefinition: {fileID: 11400000, guid: d725c66223d8305429bd2b039138c61d, type: 2}
+  healthMultiplier: 0.8
+  speedMultiplier: 1.2
+  OnHitEffectDefinition: {fileID: 11400000, guid: 7e12c238128e0a04e941bdd98c6fd888, type: 2}

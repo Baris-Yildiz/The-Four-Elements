@@ -8,8 +8,11 @@ public class BuffManager : MonoBehaviour
     private EntityStats entity;
     private List<BuffInstance> entityBuffs = new List<BuffInstance>();
     private EffectManager effectManager;
-
-
+    private float currAttackMultip = 1f;
+    private float currDefenseMultip = 1f;
+    private float currSpeedMultip = 1f;
+    private float currHealthMultip = 1f;
+    
     private void Start()
     {
         entity = GetComponent<EntityStats>();
@@ -80,26 +83,32 @@ public class BuffManager : MonoBehaviour
 
     }
 
-    private void ApplyBuffStatChange(BuffInstance buffInstance)
-    {
-        if (buffInstance != null)
-        {
-            entity.attackMultiplier *= buffInstance.buff.attackMultiplier;
-            entity.defenseMultiplier *= buffInstance.buff.defenseMultiplier;
-            entity.healthMultiplier *= buffInstance.buff.healthMultiplier;
-            entity.speedMultiplier *= buffInstance.buff.speedMultiplier;
 
-        }
+    void ApplyBuffsToEntity()
+    {
+        float[] buffMultips = { currAttackMultip, currDefenseMultip, currHealthMultip, currSpeedMultip }; 
+        entity.ApplyBuffMultipliers(buffMultips);
     }
-    private void ResetBuff(BuffInstance buffInstance)
-    {
-        if (buffInstance != null)
-        {
-            entity.attackMultiplier *= 1/buffInstance.buff.attackMultiplier;
-            entity.defenseMultiplier *= 1/buffInstance.buff.defenseMultiplier;
-            entity.healthMultiplier *= 1/buffInstance.buff.healthMultiplier;
-            entity.speedMultiplier *= 1/buffInstance.buff.speedMultiplier;
 
-        }
+    private void ApplyBuffStatChange(BuffInstance instance)
+    {
+        currAttackMultip *= instance.buff.attackMultiplier;
+        currDefenseMultip *= instance.buff.defenseMultiplier;
+        currHealthMultip *= instance.buff.healthMultiplier;
+        currSpeedMultip *= instance.buff.speedMultiplier;
+        ApplyBuffsToEntity();
+        entity.ApplyElementStats();
+
+
+
+    }
+    private void ResetBuff(BuffInstance instance)
+    {
+        currAttackMultip *= 1/instance.buff.attackMultiplier;
+        currDefenseMultip *= 1/instance.buff.defenseMultiplier;
+        currHealthMultip *= 1/instance.buff.healthMultiplier;
+        currSpeedMultip *= 1/instance.buff.speedMultiplier;
+        ApplyBuffsToEntity();
+        entity.ApplyElementStats();
     }
 }

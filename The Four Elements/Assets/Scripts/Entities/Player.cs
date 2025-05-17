@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+      //  SetAnimationSpeed(_controller.statSpeedMultiplier);
         if (_controller._input.spell2)
         {
             stateMachine.ChangeState(katanaSkillState);
@@ -84,6 +84,13 @@ public class Player : MonoBehaviour
         //Dodge , Dash 
         stateMachine.currentState.Update();
         
+    }
+
+    void SetAnimationSpeed(float speed)
+    {
+        animancer.Layers[0].Speed = Mathf.Min(1.2f, speed);
+        animancer.Layers[1].Speed = Mathf.Min(1.2f, speed);;
+        animancer.Layers[2].Speed = Mathf.Min(1.2f, speed);
     }
 
     void InitializeStates()

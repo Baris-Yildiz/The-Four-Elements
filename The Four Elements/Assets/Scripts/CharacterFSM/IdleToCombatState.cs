@@ -20,6 +20,7 @@ public class IdleToCombatState: State
         AnimancerState state = null; 
         state = animancer.Layers[1].Play(animationClips[0], 0.3f);
         state.Events(state, out AnimancerEvent.Sequence events);
+        events.Clear();
         events.Add(0.15f, player.UnsheatSword);
         player.KatanaMoveState.PlayLocomotion();
         state.Events(state).OnEnd = null;

@@ -5,8 +5,8 @@ using Random = UnityEngine.Random;
 
 public class NavmeshMovement : MonoBehaviour
 {
+   
     private NavMeshAgent agent;
-    public Vector3 velocity { get; private set; }
     [SerializeField] private Transform player;
     private EnemyInputs inputs;
     //[field: SerializeField] public float attackSpeed { get; set; }
@@ -26,12 +26,17 @@ public class NavmeshMovement : MonoBehaviour
         inputs = GetComponent<EnemyInputs>();
         enemy = GetComponent<Entity>();
         attackManager = GetComponent<EntityAttackManager>();
-        attackCd = inputs.attackSpeed;
+        
+        
     }
     
     // Update is called once per frame
     void Update()
     {
+       // Debug.LogWarning("speed: " + inputs.navSpeed);
+        //Debug.LogWarning("accleration: " + inputs.navAcceleration);
+        agent.speed = inputs.navSpeed;
+        agent.acceleration = inputs.navAcceleration;
         if (inputs.gotHit)
         {
             agent.enabled = false;
