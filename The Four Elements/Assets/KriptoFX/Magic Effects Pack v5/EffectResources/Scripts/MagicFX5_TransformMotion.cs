@@ -55,6 +55,7 @@ namespace MagicFX5
         private void OnEffectCollisionEnter(MagicFX5_EffectSettings.EffectCollisionHit hit)
         {
             _isFinished = true;
+            
             if (ImpactGameObjectAtFinish        != null) ImpactGameObjectAtFinish.SetActive(true);
             if (DeactivateGameobjectAfterImpact != null) DeactivateGameobjectAfterImpact.SetActive(false);
            
@@ -129,12 +130,15 @@ namespace MagicFX5
 
         void TriggerImpact(Transform target)
         {
+            
             if (ImpactGameObjectAtFinish        != null) ImpactGameObjectAtFinish.SetActive(true);
             if (DeactivateGameobjectAfterImpact != null) DeactivateGameobjectAfterImpact.SetActive(false);
             if (target != null)
             {
+                
                 var normal = (Transform.position - _startWorldPos).normalized;
                 var hit    = new MagicFX5_EffectSettings.EffectCollisionHit() { Target = target, Position = Transform.position, Normal = normal };
+                
                 EffectSettings.OnEffectCollisionEnter?.Invoke(hit);
                 EffectSettings.OnEffectSkinActivated?.Invoke(hit);
             }
