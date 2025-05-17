@@ -19,6 +19,8 @@ public class EnemyHitState: EnemyState
         _directionalMixerState2.Add(stateClips[3], new Vector2(-1, 0));
         _directionalMixerState2.Add(stateClips[5], new Vector2(0, -1));
         _directionalMixerState2.Add(stateClips[7], new Vector2(0, 1));
+
+       // _directionalMixerState1.Events(_directionalMixerState1).Add(0.1f, (() => {AudioSource.PlayClipAtPoint(); }));
     }
 
     public override void Enter()

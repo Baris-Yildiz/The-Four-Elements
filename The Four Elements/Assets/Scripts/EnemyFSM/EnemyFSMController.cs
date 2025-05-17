@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyFSMController : MonoBehaviour
 {
     public EnemyInputs _inputs { get; private set; }
-    public float animationBlendSpeed { get; private set; } = 8f;
     private EnemyStateMachine _stateMachine;
     private AnimancerComponent animancer;
 
@@ -44,7 +43,7 @@ public class EnemyFSMController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_inputs.isDead)
+        if (_inputs.isDead && _stateMachine.currentState != _enemyDeathState)
         {
             _stateMachine.ChangeState(_enemyDeathState);
         }

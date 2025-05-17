@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FistCollision : MonoBehaviour
@@ -8,6 +9,8 @@ public class FistCollision : MonoBehaviour
     [SerializeField]
     private EntityStats stats;
 
+    public bool canAttack { get; set; }
+    public Dictionary<GameObject, bool> hitMap = new Dictionary<GameObject, bool>();
     private EntityAttackManager _attackManager;
     private void Awake()
     {
@@ -28,21 +31,27 @@ public class FistCollision : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         //Debug.Log("here");
-        if (other.gameObject != null && other.gameObject.CompareTag("Enemy"))
+        if (canAttack && other.gameObject != null && other.gameObject.CompareTag("Enemy"))
         {
-            
-            EntityHitManager hitManager = other.gameObject.GetComponent<EntityHitManager>();
-            EnemyInputs inputs = other.gameObject.GetComponent<EnemyInputs>();
-            if (hitManager != null )
+            hitMap.TryAdd(other.gameObject, true);
+            if (hitMap[other.gameObject])
             {
-                _attackManager.PerformHit(other.gameObject , other.ClosestPoint(transform.position));
-                inputs.hitDirection = (other.gameObject.transform.position- attacker.transform.position).normalized;
-                hitManager.TakeDamage(attacker);
-            }
+                EntityHitManager hitManager = other.gameObject.GetComponent<EntityHitManager>();
+                EnemyInputs inputs = other.gameObject.GetComponent<EnemyInputs>();
+                if (hitManager != null )
+                {
+                    Debug.Log("performed hit");
+                    _attackManager.PerformHit(other.gameObject , other.ClosestPoint(transform.position));
+                    inputs.hitDirection = (other.gameObject.transform.position- attacker.transform.position).normalized;
+                    hitManager.TakeDamage(attacker);
+                }
 
+                hitMap[other.gameObject] = false;
+
+            }
         }
     }
 }
