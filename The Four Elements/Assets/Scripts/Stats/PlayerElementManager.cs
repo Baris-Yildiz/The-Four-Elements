@@ -13,8 +13,8 @@ public class PlayerElementManager : MonoBehaviour
 
     [SerializeField] private float switchCooldown = 1f;
     private float remainingSwitchCooldown;
-    
 
+    public Action<ElementalType> OnElementSwitch;
     private void Awake()
     {
         remainingSwitchCooldown = switchCooldown;
@@ -45,6 +45,7 @@ public class PlayerElementManager : MonoBehaviour
                     player_stats.ApplyElementStats();
                     SpellManager.Instance.CurrentSpellIndex = index;
                     remainingSwitchCooldown = switchCooldown;
+                    OnElementSwitch?.Invoke(entry.Value.elementType);
                 }
             }
             

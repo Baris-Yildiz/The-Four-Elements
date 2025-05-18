@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -6,6 +7,7 @@ public class EntityStats : MonoBehaviour
 {
 
     public Action OnStatChange { get;  set; }
+    public Action<float,Color> OnHealthChanged { get; set; }
 
     [field:SerializeField]
     public StatDefiner baseStats { get; private set; }
@@ -19,8 +21,7 @@ public class EntityStats : MonoBehaviour
     public float healthMultiplier { get; set; }
     [field:SerializeField]
     public float speedMultiplier{ get;  set; }
-
-
+    
     [SerializeField] private float buffAttackMultiplier = 1f;
     [SerializeField] private float buffDefenseMultiplier = 1f;
     [SerializeField] private float buffHealthMultiplier = 1f;
@@ -56,7 +57,7 @@ public class EntityStats : MonoBehaviour
                 elemRes = 1f;
                 break;
         }
-       // Debug.Log(elemRes +" " + enemy.GetFinalDef() );
+        // Debug.Log(elemRes +" " + enemy.GetFinalDef() );
         return GetFinalAttack() / (elemRes * enemy.GetFinalDef()) * Random.Range(0.8f,1f);
     }
     public float GetFinalDef()
@@ -93,9 +94,29 @@ public class EntityStats : MonoBehaviour
         // currentHealth *= healthMultiplier;
     }
 
-    public float ChangeHealth(float hit)
+    public float ChangeHealth(float hit , Color color)
     {
+        //Debug.Log("healt is changed by: " + hit);
         currentHealth -= hit;
+        OnHealthChanged?.Invoke(hit,color);
         return currentHealth;
+    }
+
+    public Color GetAttackColor()
+    {
+        switch (attackElement)
+        {
+            case ElementalType.FIRE:
+                return Color.red;
+            case ElementalType.SOIL:
+                return new Color(r:150, g: 75, b: 0);
+            case ElementalType.WIND:
+                return Color.green;
+            case ElementalType.WATER:
+                return Color.blue;
+            default:
+                return Color.black;
+            
+        }
     }
 }

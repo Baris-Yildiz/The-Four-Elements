@@ -14,6 +14,7 @@ public class PlayerVFX : MonoBehaviour
     [SerializeField] private GameObject waterSlash;
 
     [SerializeField] private GameObject soilSlash;
+    [SerializeField] private float offSetAngle;
     private GameObject slash;
 
     private void Awake()
@@ -55,11 +56,8 @@ public class PlayerVFX : MonoBehaviour
                 slash = soilSlash;
                 break;
         }
-        
-        //slash.transform.position = swordTransform.position;
-       // slash.transform.rotation = swordTransform.rotation;
-        GameObject gObject = Instantiate(slash, swordTransform.position, Quaternion.Euler(swordTransform.rotation.x , swordTransform.rotation.y-135f , swordTransform.rotation.z));
-       // gObject.transform.localScale = new Vector3(2, 2, 2);
+        Quaternion slashRotation = Quaternion.LookRotation(transform.forward);
+        GameObject gObject = Instantiate(slash, swordTransform.position, Quaternion.Euler(swordTransform.rotation.x, slashRotation.eulerAngles.y+offSetAngle , swordTransform.rotation.z));
         ParticleSystem pSystem = gObject.GetComponent<ParticleSystem>();
         pSystem.Play();
         StartCoroutine("SetInactive" , gObject);
