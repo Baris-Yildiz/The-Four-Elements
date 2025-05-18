@@ -54,7 +54,7 @@ public class HealthBar : MonoBehaviour
         if (startLerp)
         {
             lerp.fillAmount = Mathf.Lerp(lerp.fillAmount, front.fillAmount, lerpSpeed * Time.deltaTime);
-            if (Mathf.Abs(lerp.fillAmount - front.fillAmount) < 0.05f)
+            if (Mathf.Abs(lerp.fillAmount - front.fillAmount) < 0.005f)
             {
                 lerp.fillAmount = front.fillAmount;
                 startLerp = false;
