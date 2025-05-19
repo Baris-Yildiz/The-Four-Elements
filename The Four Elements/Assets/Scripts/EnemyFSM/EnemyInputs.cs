@@ -68,7 +68,6 @@ public class EnemyInputs : MonoBehaviour
 
     private void Update()
     {
-        
         //Debug.LogWarning(canAttack);
         //Debug.Log(velocity);
         if (!playerDetected)
@@ -80,14 +79,19 @@ public class EnemyInputs : MonoBehaviour
 
         if (playerDetected && (lastPosition - hitPosition).sqrMagnitude > attackRangeSqr)
         {
+            print("1");
             startRotation = false;
             canAttack = false;
             CalculateHitPosition();
+        } else if (playerDetected && (lastPosition - hitPosition).sqrMagnitude <= attackRangeSqr) //necis
+        {
+            startRotation = true;
+            canAttack = false;
         }
 
         if ((hitPosition - transform.position).sqrMagnitude <= 0.2f * 0.2f)
         {
-            //Debug.LogWarning("adsadasdsadsa");
+            
             startRotation = true;
             canAttack = angle <5f && angle > -5f; 
         }

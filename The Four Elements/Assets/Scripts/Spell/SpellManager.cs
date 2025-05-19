@@ -70,15 +70,15 @@ public class SpellManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             SpawnSpellObject(dummy);
-        }
+        }*/
 
         
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             ShootForward();
         }
-        */
+
     }
 
     public void SpawnSpellObject(Transform target)
@@ -90,9 +90,14 @@ public class SpellManager : MonoBehaviour
                 Transform[] targetArray = new Transform[1];
                 targetArray[0] = target;
                 component.Targets = targetArray;
+            } else //wind
+            {
+                
             }
         };
-        poolManagers[CurrentSpellIndex].SpawnPooledObject(raycastStartTransform.position, Quaternion.identity);
+
+        poolManagers[CurrentSpellIndex].SpawnPooledObject(raycastStartTransform.position, raycastStartTransform.rotation);
+
     }
 
     public void SwitchSpellType()

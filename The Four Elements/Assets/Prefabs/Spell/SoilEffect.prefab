@@ -27067,7 +27067,7 @@ GameObject:
   - component: {fileID: 3115266630496690933}
   m_Layer: 0
   m_Name: SoilEffect
-  m_TagString: Untagged
+  m_TagString: Soil
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36379,7 +36379,7 @@ ParticleSystem:
     maxCollisionShapes: 500
     quality: 1
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:

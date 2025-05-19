@@ -7,6 +7,10 @@ TagManager:
   - CinemachineTarget
   - Fist
   - Enemy
+  - Fire
+  - Ice
+  - Wind
+  - Soil
   layers:
   - Default
   - TransparentFX
