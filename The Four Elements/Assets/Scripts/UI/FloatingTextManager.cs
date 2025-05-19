@@ -33,7 +33,7 @@ public class FloatingTextManager : MonoBehaviour
         }
 
         GameObject f_text = floatingTexts[currIndex];
-        Debug.Log(Mathf.Floor(damage).ToString());
+//        Debug.Log(Mathf.Floor(damage).ToString());
         f_text.GetComponent<FloatingText>().InitializeText(Mathf.Floor(damage).ToString() , color);
     }
 
