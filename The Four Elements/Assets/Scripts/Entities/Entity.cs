@@ -5,13 +5,13 @@ using Random = UnityEngine.Random;
 
 public class Entity : MonoBehaviour 
 {
-   [field:SerializeField]
     public EntityStats stats { get; private set; }
     
     protected virtual void Awake()
     {
-        
-        
+        stats = GetComponent<EntityStats>();
+
+
     }
 
     

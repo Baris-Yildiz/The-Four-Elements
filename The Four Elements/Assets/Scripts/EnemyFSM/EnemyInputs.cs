@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
 using Random = UnityEngine.Random;
+using UnityEngine.AI;
 
 public class EnemyInputs : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class EnemyInputs : MonoBehaviour
         canAttack = false;
         playerDetected = false;
         lastPosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-        hitPosition = transform.position;
+        hitPosition = Vector3.positiveInfinity;
         _entityHitManager = GetComponent<EntityHitManager>();
     }
 
@@ -76,6 +77,7 @@ public class EnemyInputs : MonoBehaviour
             canAttack = false;
         }
         float attackRangeSqr = attackRange * attackRange;
+        //Debug.LogWarning("player detecteddd: "+ playerDetected);
 
         if (playerDetected && (lastPosition - hitPosition).sqrMagnitude > attackRangeSqr)
         {
@@ -83,14 +85,11 @@ public class EnemyInputs : MonoBehaviour
             startRotation = false;
             canAttack = false;
             CalculateHitPosition();
-        } else if (playerDetected && (lastPosition - hitPosition).sqrMagnitude <= attackRangeSqr) //necis
-        {
-            startRotation = true;
-            canAttack = false;
-        }
+        }       
 
         if ((hitPosition - transform.position).sqrMagnitude <= 0.2f * 0.2f)
         {
+            print("222222222");
             
             startRotation = true;
             canAttack = angle <5f && angle > -5f; 
@@ -115,6 +114,19 @@ public class EnemyInputs : MonoBehaviour
     {
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
         float offset = attackRange - rangeOffset;
-        hitPosition = lastPosition + new Vector3(offset * Mathf.Cos(angle), 0, offset * Mathf.Sin(angle));
+
+        Vector3 rawPosition = lastPosition + new Vector3(offset * Mathf.Cos(angle), 0, offset * Mathf.Sin(angle));
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(rawPosition, out hit, 1.0f, NavMesh.AllAreas))
+        {
+            Debug.LogWarning("path calculated success");
+            hitPosition = hit.position; 
+        }
+        else
+        {
+            Debug.LogWarning("path calculation fail");
+            hitPosition = lastPosition; 
+        }
     }
 }

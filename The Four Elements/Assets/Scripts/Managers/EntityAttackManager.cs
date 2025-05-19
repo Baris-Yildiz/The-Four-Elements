@@ -5,7 +5,6 @@ public class EntityAttackManager : MonoBehaviour
 {
    public event Action onAttackStart;
    public event Action<GameObject ,Vector3> onAttackHit;
-   [SerializeField]
    private EffectManager effectManager;
    
    

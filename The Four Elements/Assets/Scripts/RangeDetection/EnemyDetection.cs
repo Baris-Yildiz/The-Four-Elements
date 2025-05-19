@@ -56,11 +56,10 @@ public class EnemyDetection : MonoBehaviour
         {
             
             DetectionCheck();
-            
             float sqrToLastPos = (transform.position - enemy.lastPosition).sqrMagnitude;
             enemy.chasePlayer = (enemy.playerDetected && sqrToLastPos > enemy.attackRange * enemy.attackRange) ||
                                 (!enemy.playerDetected && sqrToLastPos <= 1f * 1f);
-           // Debug.LogWarning(enemy.playerDetected);
+          
         }
     }
 
@@ -68,29 +67,24 @@ public class EnemyDetection : MonoBehaviour
     {
         Vector3 direction = player.position - transform.position;
         float sqrDist = direction.sqrMagnitude;
-        //print("detect");
       
         Vector3 dirNormalized = direction / Mathf.Sqrt(sqrDist); 
         float dot = Vector3.Dot(transform.forward, dirNormalized);
         detectionFreq = 1f;
         canDetect = false;
-        //print(dot >= cosHalfViewAngle);
         if (dot >= cosHalfViewAngle &&
             Physics.Raycast(rayPoint.position, dirNormalized, out RaycastHit hit, viewDistance , detectionLayer) &&
             hit.transform.CompareTag("Player"))
         {
-           
-            Debug.LogWarning("detected detected");
+            
             enemy.lastPosition = new Vector3(hit.transform.position.x, 0, hit.transform.position.z);
             enemy.playerDetected = true;
             remainingStopTime = stopTime;
             tempAngle = detectedAngle;
             cosHalfViewAngle = Mathf.Cos(tempAngle * 0.5f * Mathf.Deg2Rad);
-            print("player detected: " + enemy.playerDetected);
         }
         else
         {
-            print("aaaaa");
             enemy.playerDetected = false;
         }
     }

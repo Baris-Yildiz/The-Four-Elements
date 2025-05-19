@@ -3,14 +3,13 @@ using System;
 
 public class EntityHitManager : MonoBehaviour,IDamageable
 {
-    [SerializeField]
+   
     private EntityStats entityStats;
 
     private BuffManager buffManager;
     public event Action OnEntityDied;
   //  public event Action<float,float> OnHealthChanged;
     public event Action OnGotHit; 
-    [SerializeField]
     private EffectManager effectManager;
 
     private void Awake()

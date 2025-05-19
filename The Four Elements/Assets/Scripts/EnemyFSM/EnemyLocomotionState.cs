@@ -22,6 +22,7 @@ public class EnemyLocomotionState: EnemyState
         linearMixerState.Parameter = enemy._inputs.velocity.magnitude;
         if (enemy._inputs.startRotation)
         {
+           // Debug.LogWarning("rotatinggggg");
             stateMachine.ChangeState(enemy._enemyRotationState);
         }
 
