@@ -12,7 +12,10 @@ public class BuffManager : MonoBehaviour
     private float currDefenseMultip = 1f;
     private float currSpeedMultip = 1f;
     private float currHealthMultip = 1f;
-    
+
+    public Action<Buff> OnBuffAdded { get; set; }
+    public Action<Buff> OnBuffRemoved { get; set; }
+
     private void Start()
     {
         entity = GetComponent<EntityStats>();
@@ -67,6 +70,7 @@ public class BuffManager : MonoBehaviour
             {
                 BuffInstance instance = new BuffInstance(buff);
                 entityBuffs.Add(instance);
+                OnBuffAdded?.Invoke(buff);
                 ApplyBuffStatChange(instance);
             }
         }
@@ -78,6 +82,7 @@ public class BuffManager : MonoBehaviour
         if (buff != null)
         {
             entityBuffs.Remove(buff);
+            OnBuffRemoved?.Invoke(buff.buff);
             ResetBuff(buff);
         }
 

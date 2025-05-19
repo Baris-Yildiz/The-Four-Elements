@@ -20,6 +20,11 @@ public class HealthBar : MonoBehaviour
     private void Awake()
     {
         _entityStats = GetComponentInParent<EntityStats>();
+        if (_entityStats == null)
+        {
+            _entityStats = GameObject.FindGameObjectWithTag("Player").GetComponent<EntityStats>();
+        }
+
         text.SetText(_entityStats.baseStats.MaxHealth + "/" + _entityStats.baseStats.MaxHealth );
         back.fillAmount = 1;
         lerp.fillAmount = 1;

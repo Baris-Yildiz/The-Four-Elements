@@ -6,6 +6,7 @@ public class PlayerSFX : MonoBehaviour
 {
 
     private AudioSource _source;
+    [SerializeField] private float volume = 0.3f;
     
     [SerializeField]private Transform swordTransform;
     [SerializeField] private AudioClip[] manSlashSounds;
@@ -16,6 +17,7 @@ public class PlayerSFX : MonoBehaviour
     private void Awake()
     {
         _source = GetComponent<AudioSource>();
+        _source.volume = volume;
     }
 
     public void PlaySlashClip()

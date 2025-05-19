@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class FistCollision : MonoBehaviour
 {
-    [SerializeField]
+    
     private Entity attacker;
-    [SerializeField]
     private EntityStats stats;
-
     public bool canAttack { get; set; }
     public Dictionary<GameObject, bool> hitMap = new Dictionary<GameObject, bool>();
     private EntityAttackManager _attackManager;
     private void Awake()
     {
+
+        attacker = GetComponentInParent<Entity>();
+        stats = GetComponentInParent<EntityStats>();
+        _attackManager = GetComponentInParent<EntityAttackManager>();
         /*
         attacker = GetComponent<Entity>();
         stats = GetComponent<EntityStats>();
@@ -27,25 +29,34 @@ public class FistCollision : MonoBehaviour
             Debug.Log("Entity Stats is null");
         }
 
-        _attackManager = GetComponentInParent<EntityAttackManager>();
+       
 
     }
 
+   
+
     private void OnTriggerStay(Collider other)
     {
-        //Debug.Log("here");
+       // Debug.Log(canAttack + " " + other.gameObject.CompareTag("Enemy"));
         if (canAttack && other.gameObject != null && other.gameObject.CompareTag("Enemy"))
         {
+            
             hitMap.TryAdd(other.gameObject, true);
             if (hitMap[other.gameObject])
             {
+                
                 EntityHitManager hitManager = other.gameObject.GetComponent<EntityHitManager>();
                 EnemyInputs inputs = other.gameObject.GetComponent<EnemyInputs>();
                 if (hitManager != null )
                 {
-                    Debug.Log("performed hit");
-                    _attackManager.PerformHit(other.gameObject , other.ClosestPoint(transform.position));
-                    inputs.hitDirection = (other.gameObject.transform.position- attacker.transform.position).normalized;
+                  //  Debug.Log("performed hit");
+                    Vector3 p = other.ClosestPoint(transform.position);
+                    _attackManager.PerformHit(other.gameObject , p);
+                    hitManager.CalculateHitPoint(p);
+                    Vector3 worldHitDirection = (other.gameObject.transform.position - attacker.transform.position).normalized;
+                    Vector3 localHitDirection = other.transform.InverseTransformDirection(worldHitDirection);
+                    inputs.hitDirection = localHitDirection;
+                   // Debug.Log(inputs.hitDirection);
                     hitManager.TakeDamage(attacker);
                 }
 

@@ -15,6 +15,7 @@ MonoBehaviour:
   buffId: 1
   effectType: 1
   duration: 15
+  effectIcon: {fileID: 21300000, guid: 1a90bc7423d706143a2d64d495dd55ec, type: 3}
   attackMultiplier: 1
   defenseMultiplier: 1
   healthMultiplier: 1

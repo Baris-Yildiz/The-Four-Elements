@@ -149,5 +149,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ee169784b71e5449c0cce5b1474983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alphaSpeed: 1
-  movementSpeed: {x: 0, y: 0, z: 0}
+  alphaSpeed: 0.1
+  offSetX: {x: 0, y: 0}
+  offSetY: {x: 0, y: 0}
+  gradientDarkenFactor: 0.7
+  faceDilation: 0.05
+  outlineThickness: 0.1
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}

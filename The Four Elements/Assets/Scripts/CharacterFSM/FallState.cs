@@ -11,6 +11,7 @@ public class FallState : AirState
     {
        // player.animator.SetBool(animationParameter  , true);
         player._controller.SetMoveSpeedMultiplier(0f);
+        player._controller.canJump = true;
         animancer.Play(animationClips[1],0.1f);
         
     }
@@ -28,6 +29,7 @@ public class FallState : AirState
     {
         //player.animator.SetBool(animationParameter  , false);
         player._controller.SetMoveSpeedMultiplier(1f);
+        player._controller.canJump = false;
     }
 
     private void ChangeToMove()

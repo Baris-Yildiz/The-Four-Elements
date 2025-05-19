@@ -3,12 +3,18 @@ using UnityEngine;
 
 public class EnemyShootingState:EnemyState
 {
+    private EnemySFX _sfx;
     public EnemyShootingState(EnemyFSMController enemy, EnemyStateMachine stateMachine, AnimationClip[] stateClips, AnimancerComponent animancer) : base(enemy, stateMachine, stateClips, animancer)
     {
+        _sfx = enemy.GetComponent<EnemySFX>();
     }
 
     public override void Enter()
     {
+        if (_sfx != null)
+        {
+            _sfx.PlayAttackSoundLoop(enemy._inputs.attackSpeed);
+        }
         AnimancerState state = animancer.Play(animationClips[0]);
         float duration = state.Length;
 //        Debug.Log(duration);
@@ -31,6 +37,12 @@ public class EnemyShootingState:EnemyState
 
     public override void Exit()
     {
+        if (_sfx != null)
+        {
+            _sfx.ResetLoop();    
+        }
+
+        
         base.Exit();
     }
 }

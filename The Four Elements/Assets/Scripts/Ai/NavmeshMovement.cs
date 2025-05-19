@@ -46,10 +46,10 @@ public class NavmeshMovement : MonoBehaviour
         agent.enabled = true;
         inputs.velocity = agent.velocity;
         //RotateTowardsTarget(rayPoint , Mathf.Infinity,false);
-        Debug.Log(agent.pathStatus);
+       // Debug.Log(agent.pathStatus);
         if ((agent.destination - inputs.hitPosition).sqrMagnitude > 0.1f && (inputs.playerDetected && inputs.chasePlayer || (!inputs.startRotation && !inputs.chasePlayer)))
         {
-            Debug.LogWarning((agent.destination - inputs.hitPosition).sqrMagnitude);
+           // Debug.LogWarning((agent.destination - inputs.hitPosition).sqrMagnitude);
             //Debug.LogWarning(agent.pathStatus);
             agent.SetDestination(inputs.hitPosition);
         }

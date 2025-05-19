@@ -8,26 +8,16 @@ public class PlayerAttackEvents : MonoBehaviour
 
     private void Awake()
     {
-        _collision = GetComponentInChildren<FistCollision>();
+        _collision = GetComponentInChildren<FistCollision>(true);
 
     }
 
-    public void Attack1()
-    {
-    }
-
-    public void Attack2()
-    {
-    }
-
-    public void Attack3()
-    {
-    }
+  
 
     public void StartCollision()
     {
-        //Debug.Log("can hit");
-        
+       // Debug.Log("can hit");
+      //  Debug.Log(_collision.hitMap == null);
         var keysCopy = new List<GameObject>(_collision.hitMap.Keys);
 
         foreach (var key in keysCopy)
@@ -42,12 +32,14 @@ public class PlayerAttackEvents : MonoBehaviour
             }
         }
         _collision.canAttack = true;
+    //    Debug.Log(_collision.canAttack);
     }
 
     public void CloseCollision()
     {
-        //Debug.Log("cannot hit");
+       // Debug.Log("cannot hit");
         _collision.canAttack = false;
+       
     }
     
     

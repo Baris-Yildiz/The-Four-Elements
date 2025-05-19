@@ -301,38 +301,52 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
-            if (Grounded && canJump)
+            if (Grounded)
             {
-                
+                // Reset the fall timeout timer when grounded
                 _fallTimeoutDelta = FallTimeout;
 
+                // Stop our velocity dropping infinitely when grounded
+                // This should happen regardless of whether canJump is true or false
                 if (_verticalVelocity < 0.0f)
                 {
                     _verticalVelocity = -2f;
                 }
 
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                // Jump logic: only process jump input if canJump is true
+                if (canJump && _input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
-
+                    // The square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                    // TODO: Trigger jump animation if animator is available and setup
+                    // if (_animator != null)
+                    // {
+                    //     _animator.SetBool(_animIDJump, true); 
+                    // }
                 }
 
-
+                // Jump timeout
                 if (_jumpTimeoutDelta >= 0.0f)
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
             }
-            else
+            else // Not Grounded
             {
+                // Reset the jump timeout timer if we are not grounded
                 _jumpTimeoutDelta = JumpTimeout;
+
+                // Fall timeout
                 if (_fallTimeoutDelta >= 0.0f)
                 {
                     _fallTimeoutDelta -= Time.deltaTime;
                 }
-              
+   
                 _input.jump = false;
             }
+
+            // Apply gravity consistently, but only if vertical velocity is below terminal velocity
             if (_verticalVelocity < _terminalVelocity)
             {
                 _verticalVelocity += Gravity * Time.deltaTime;

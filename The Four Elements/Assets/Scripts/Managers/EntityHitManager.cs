@@ -9,7 +9,8 @@ public class EntityHitManager : MonoBehaviour,IDamageable
     private BuffManager buffManager;
     public event Action OnEntityDied;
   //  public event Action<float,float> OnHealthChanged;
-    public event Action OnGotHit; 
+    public event Action OnGotHit;
+    public event Action<Vector3> PointedOnGotHit;
     private EffectManager effectManager;
 
     private void Awake()
@@ -51,6 +52,11 @@ public class EntityHitManager : MonoBehaviour,IDamageable
         buffManager.AddBuff(attacker.stats.element.OnHitEffectDefinition);
         //OnHealthChanged?.Invoke(entityStats.currentHealth , damage);
         OnGotHit?.Invoke();
+    }
+
+    public void CalculateHitPoint(Vector3 hitPoint)
+    {
+        PointedOnGotHit?.Invoke(hitPoint);
     }
 
     public float GetMaxHealth()

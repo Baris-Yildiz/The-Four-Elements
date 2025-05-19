@@ -25,6 +25,7 @@ public class EnemyInputs : MonoBehaviour
     public bool rotationCompleted { get; set; } = false;
     public Vector3 lastPosition { get; set; }
     public Vector3 hitPosition { get; set;}
+    public int gotHitCount { get; set; }
     public float angle {get; set;}
     [SerializeField] private float accelerationAmount;
     [SerializeField] private float attackSpeedEffect;
@@ -99,6 +100,7 @@ public class EnemyInputs : MonoBehaviour
     public void SetHitStatus()
     {
         gotHit = true;
+        gotHitCount++;
         startRotation = false;
         canAttack = false;
     }
@@ -120,12 +122,12 @@ public class EnemyInputs : MonoBehaviour
         NavMeshHit hit;
         if (NavMesh.SamplePosition(rawPosition, out hit, 1.0f, NavMesh.AllAreas))
         {
-            Debug.LogWarning("path calculated success");
+  //          Debug.LogWarning("path calculated success");
             hitPosition = hit.position; 
         }
         else
         {
-            Debug.LogWarning("path calculation fail");
+//            Debug.LogWarning("path calculation fail");
             hitPosition = lastPosition; 
         }
     }
