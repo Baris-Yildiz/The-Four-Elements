@@ -19,7 +19,7 @@ public class NavmeshMovement : MonoBehaviour
     public float visionStr = 1f;
    // public float rotationSpeed = 180f;
     [SerializeField] private Transform rayPoint;
-    private bool rotationCompleted = false;
+   
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
