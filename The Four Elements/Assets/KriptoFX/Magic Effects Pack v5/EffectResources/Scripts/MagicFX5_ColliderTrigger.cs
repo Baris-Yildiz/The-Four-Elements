@@ -18,6 +18,7 @@ namespace MagicFX5
             hit.Target   = contact.otherCollider.transform;
             hit.Position = contact.point;
             hit.Normal   = contact.normal;
+            Debug.LogError("spell hitted enemyyyyy");
             EffectSettings.OnEffectCollisionEnter?.Invoke(hit);
         }
     }

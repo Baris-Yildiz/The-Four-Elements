@@ -1,6 +1,7 @@
 using Cinemachine;
 using System;
 using UnityEngine;
+using MagicFX5;
 
 public class SpellManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class SpellManager : MonoBehaviour
             currentSpellIndex = value;
         }
     }
+    
 
     public Transform dummy;
     public GameObject player;
@@ -42,6 +44,12 @@ public class SpellManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+    }
+
+    void OnEnable()
+    {
+        
         
     }
 

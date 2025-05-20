@@ -1,9 +1,9 @@
 using UnityEngine;
-
 namespace MagicFX5
 {
     public class MagicFX5_TransformMotion : MagicFX5_IScriptInstance
     {
+        
         public MagicFX5_EffectSettings EffectSettings;
         public Transform          Transform;
         public MoveModeEnum       MoveMode = MoveModeEnum.ForwardDirection;

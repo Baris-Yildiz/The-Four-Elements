@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
     public bool GetSwordState()
     {
         return sheatedSword.activeSelf;
+        
     }
 
     private void Awake()

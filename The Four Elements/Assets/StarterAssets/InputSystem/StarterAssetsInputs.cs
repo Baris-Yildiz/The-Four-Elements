@@ -41,13 +41,13 @@ namespace StarterAssets
 
 		public void OnSpell1(InputValue value)
 		{
-			Debug.Log("spell1 presed");
+			//Debug.Log("spell1 presed");
 			Spell1Input(value.isPressed);
 		}
 
 		public void OnSpell2(InputValue value)
 		{
-			Debug.Log("spell2 pressed");
+			//Debug.Log("spell2 pressed");
 			Spell2Input(value.isPressed);
 		}
 

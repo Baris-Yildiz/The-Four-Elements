@@ -43,12 +43,15 @@ public class EnemyFSMController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
+
+
         if (_inputs.isDead && _stateMachine.currentState != _enemyDeathState)
         {
             _stateMachine.ChangeState(_enemyDeathState);
         }
 
-        if (_inputs.gotHit && _stateMachine.currentState != _enemyHitState)
+        else if (_inputs.gotHit && _stateMachine.currentState != _enemyHitState)
         {
             _stateMachine.ChangeState(_enemyHitState);
         }
