@@ -11,7 +11,7 @@ public class SceneTranstion : MonoBehaviour
 
     public void LoadSceneAsync()
     {
-        
+        Time.timeScale = 1f;
         StartCoroutine(LoadYourAsyncScene());
     }
 
