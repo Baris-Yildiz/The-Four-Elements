@@ -73,7 +73,8 @@ public class PlayerDetection : MonoBehaviour
 
             foreach (var _enemy in _overlapResults)
             {
-                if (_enemy != null)
+                if (_enemy != null && _enemy.TryGetComponent<EnemyInputs>(out var enemyInputs) &&
+                    !enemyInputs.isDead)
                 {
                     float dist =
                         Math.Abs(Vector3.Distance(player.transform.position, _enemy.gameObject.transform.position));

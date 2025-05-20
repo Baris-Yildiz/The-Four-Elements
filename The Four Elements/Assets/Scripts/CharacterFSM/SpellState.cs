@@ -51,6 +51,7 @@ public class SpellState: State
         */
 
         player.KatanaMoveState.SetSpeed();
+        player.NonCombatMoveState.SetSpeed();
         base.Update();
     }
 

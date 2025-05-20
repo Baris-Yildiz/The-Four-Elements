@@ -15,7 +15,7 @@ public class EnemyDeathState:EnemyState
         AnimancerState state = animancer.Play(animationClips[Random.Range(0, n)], 0.2f);
         state.Events(state).OnEnd = (() =>
         {
-//            Debug.Log("Died");
+
             enemy.gameObject.GetComponent<Entity>().Die();
         });
     }

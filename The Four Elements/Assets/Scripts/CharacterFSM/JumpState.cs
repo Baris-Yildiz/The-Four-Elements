@@ -11,15 +11,17 @@ public class JumpState : AirState
 
     public override void Enter()
     {
-       // player.animator.SetBool(animationParameter , true);
+       // player.animator.SetBool(animationParameter , true);       
         player._controller.SetMoveSpeedMultiplier(0.5f);
         AnimancerState state = animancer.Play(animationClips[0], 0.15f , FadeMode.FixedDuration);
         player._controller.canJump = true;
+        /*
         state.Events(state).OnEnd = () =>
         {
             AnimancerState s = animancer.Play(animationClips[0], 0.15f, FadeMode.FixedDuration);
             s.NormalizedTime = 0.8f;
         };
+        */
         //animancer.Play(animationClips[0], 0.15f , FadeMode.FixedDuration);
     }
 

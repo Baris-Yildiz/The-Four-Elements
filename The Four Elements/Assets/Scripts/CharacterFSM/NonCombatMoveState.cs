@@ -27,7 +27,14 @@ public class NonCombatMoveState: MoveState
             stateMachine.ChangeState(player.idleToCombatState);
             return;
         }
-        
+
+        if (!player.IsCombatState && !player.GetSwordState())
+        {
+            stateMachine.ChangeState(player.combatToIdleState);
+            return;
+
+        }
+
 
         base.Update();
     }

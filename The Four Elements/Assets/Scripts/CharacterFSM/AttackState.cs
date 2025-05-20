@@ -7,6 +7,7 @@ public class AttackState : GroundState
     private int _currentAttackIndex = 0;
     private bool _requestNextAttack = false;
     private int _maxAttacks;
+    private EntityStats stats;
     private AnimancerState _currentState;
     private Coroutine _attackMovementCoroutine;
     private bool canStartAnim = false;
@@ -21,12 +22,14 @@ public class AttackState : GroundState
         if (stateClips == null || stateClips.Length == 0) { _maxAttacks = 0; }
         else { _maxAttacks = stateClips.Length; }
 
+        stats = player.GetComponent<EntityStats>();
         range = player.range;
     }
 
     public override void Enter()
     {
         base.Enter();
+        
         player._controller.SetMoveSpeedMultiplier(0);
         _requestNextAttack = false;
         player._controller._input.leftAttack = false;
@@ -74,6 +77,10 @@ public class AttackState : GroundState
         
         AnimationClip clipToPlay = animationClips[_currentAttackIndex % _maxAttacks];
         lastIndex = _currentAttackIndex;
+
+        stats.attackMultiplier = stats.element.attackMultiplier;
+        stats.ChangeAttack(1 + ((float)_currentAttackIndex/_maxAttacks));
+        
         _currentState = animancer.Play(clipToPlay, 0.2f, FadeMode.FixedDuration);
         _currentState.Speed = 1.2f;
         canStartAnim = false;
@@ -136,6 +143,7 @@ public class AttackState : GroundState
         {
             startMoving = true;
             _requestNextAttack = false;
+           
             _currentAttackIndex++;
             if (_currentAttackIndex >= _maxAttacks || player._controller._input.spell1 || player._controller._input.spell2)
             {
@@ -165,6 +173,7 @@ public class AttackState : GroundState
     public override void Exit()
     {
         base.Exit();
+        stats.attackMultiplier = stats.element.attackMultiplier;
         canInterruptable = false;
         startMoving = false;
         player.swordCollider.enabled = false;

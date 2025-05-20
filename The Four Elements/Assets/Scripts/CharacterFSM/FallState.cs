@@ -20,6 +20,7 @@ public class FallState : AirState
     {
         if (player._controller.Grounded)
         {
+            player._controller.SetMoveSpeedMultiplier(0f);
            AnimancerState state = animancer.Play(animationClips[2],0.2f);
            state.Events(state).OnEnd ??= ChangeToMove;
         }
