@@ -10,7 +10,7 @@ public class FallState : AirState
     public override void Enter()
     {
        // player.animator.SetBool(animationParameter  , true);
-        player._controller.SetMoveSpeedMultiplier(0f);
+        player._controller.SetMoveSpeedMultiplier(0.5f);
         player._controller.canJump = true;
         animancer.Play(animationClips[1],0.1f);
         

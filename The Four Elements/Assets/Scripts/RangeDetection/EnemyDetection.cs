@@ -45,7 +45,10 @@ public class EnemyDetection : MonoBehaviour
     {
         if (!enemy.playerDetected && (remainingStopTime -= Time.deltaTime) <= 0)
         {
+           // Debug.LogWarning("aldsadsadasdsadasfsa");
             tempAngle = viewAngle;
+            enemy.canAttack = false;
+            enemy.startRotation = false;
             remainingStopTime = stopTime;
             cosHalfViewAngle = Mathf.Cos(tempAngle * 0.5f * Mathf.Deg2Rad);
         }
@@ -86,6 +89,7 @@ public class EnemyDetection : MonoBehaviour
         }
         else
         {
+           // Debug.LogWarning("not detecdes");
             enemy.playerDetected = false;
         }
     }

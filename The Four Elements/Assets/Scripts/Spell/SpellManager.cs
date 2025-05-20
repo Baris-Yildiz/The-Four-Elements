@@ -44,7 +44,10 @@ public class SpellManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
+        player = GameObject.FindWithTag("Player");
+        raycastStartTransform = GameObject.Find("ProjectileL").transform;
+
     }
 
     void OnEnable()
@@ -93,7 +96,7 @@ public class SpellManager : MonoBehaviour
                 spellObj.GetComponentInChildren<WindSpellZone>().HitPlayer = false;
             }
         };
-        if (CurrentSpellIndex == 2)
+        if (CurrentSpellIndex == 3)
         {
             Vector3 windSpawnPosition = playerCamera.Follow.position + (playerCamera.Follow.position - playerCamera.transform.position).normalized;
             poolManagers[CurrentSpellIndex].SpawnPooledObject(windSpawnPosition, GameObject.FindWithTag("MainCamera").transform.rotation) ;

@@ -51,7 +51,7 @@ public class EnemyFSMController : MonoBehaviour
             _stateMachine.ChangeState(_enemyDeathState);
         }
 
-        else if (_inputs.gotHit && _stateMachine.currentState != _enemyHitState)
+        else if ( !_inputs.isDead && _inputs.gotHit && _stateMachine.currentState != _enemyHitState)
         {
             _stateMachine.ChangeState(_enemyHitState);
         }

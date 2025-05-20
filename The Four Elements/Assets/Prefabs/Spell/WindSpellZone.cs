@@ -1,9 +1,12 @@
+using System.Collections;
 using Cinemachine;
+using StarterAssets;
 using UnityEngine;
 
 public class WindSpellZone : MonoBehaviour
 {
     public bool HitPlayer = false;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<WindReactionManager>(out WindReactionManager script))
@@ -13,21 +16,21 @@ public class WindSpellZone : MonoBehaviour
         {
             HitPlayer = true;
             CinemachineVirtualCamera playerCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
-            Vector3 force = (playerCamera.Follow.position - playerCamera.transform.position).normalized;
-            
-            other.gameObject.GetComponent<CharacterController>().Move(force);
+            //Vector3 force = (playerCamera.Follow.position - playerCamera.transform.position).normalized;
+            Vector3 force = (other.transform.forward*(-1)).normalized;
+            StartCoroutine(MoveChar(other.gameObject , force , 0.25f));
             print("hit player");
         }
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator MoveChar(GameObject obj,Vector3 dir , float sec)
     {
-        
+        obj.GetComponent<ThirdPersonController>().wind = 0f;
+        while ((sec -= Time.unscaledDeltaTime) > 0)
+        {
+            obj.GetComponent<CharacterController>().Move(dir);
+            yield return null;
+        }
+        obj.GetComponent<ThirdPersonController>().wind = 1;
     }
 }

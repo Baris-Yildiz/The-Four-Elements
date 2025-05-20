@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 public class Entity : MonoBehaviour 
 {
     public EntityStats stats { get; private set; }
-    public Material OnDieMaterial { get; private set; } //should be BurnShader
+    [field:SerializeField]public Material OnDieMaterial { get; private set; } //should be BurnShader
    
     
     protected virtual void Awake()
@@ -15,6 +15,7 @@ public class Entity : MonoBehaviour
     }
     public virtual void Die()
     {
+        
         ChangeMaterialTo(OnDieMaterial);
        
     }
@@ -22,18 +23,22 @@ public class Entity : MonoBehaviour
     private void ChangeMaterialTo(Material material)
     {
         var skins = GetComponentsInChildren<SkinnedMeshRenderer>();
-        material.SetFloat("_startTime", Time.time);
+        var meshRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        Material instancedMaterial = new Material(material); // unique copy
+        instancedMaterial.SetFloat("_startTime", Time.unscaledTime);
+        //Debug.LogWarning(instancedMaterial.GetFloat("_startTime"));
 
         foreach (var skin in skins)
         {
-            skin.materials = new Material[] { material };
+            skin.materials = new Material[] { instancedMaterial };
         }
 
-        var meshRenderers = GetComponentsInChildren<MeshRenderer>();
         foreach (var mr in meshRenderers)
         {
-            mr.materials = new Material[] { material };
+            mr.materials = new Material[] { instancedMaterial };
         }
-        Destroy(gameObject , 2f);
+
+        Destroy(gameObject, 2f);
     }
 }

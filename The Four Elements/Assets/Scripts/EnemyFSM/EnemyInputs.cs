@@ -88,7 +88,7 @@ public class EnemyInputs : MonoBehaviour
             CalculateHitPosition();
         }       
 
-        if ((hitPosition - transform.position).sqrMagnitude <= 0.2f * 0.2f)
+        if ( playerDetected && (hitPosition - transform.position).sqrMagnitude <= 0.2f * 0.2f)
         {
            // print("222222222");
             

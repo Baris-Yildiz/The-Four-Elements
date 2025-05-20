@@ -94,6 +94,11 @@ public class EntityStats : MonoBehaviour
         // currentHealth *= healthMultiplier;
     }
 
+    public void ChangeAttack(float attackM)
+    {
+        attackMultiplier *= attackM;
+    }
+
     public float ChangeHealth(float hit , Color color)
     {
         //Debug.Log("healt is changed by: " + hit);

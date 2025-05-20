@@ -89,6 +89,8 @@ namespace StarterAssets
         private float _moveSpeedMultiplier = 0.0f;
 
         public float statSpeedMultiplier = 1f;
+
+        public float wind = 1f;
         // player
         public float _speed { get; private set; }
         public float _animationBlend { get; private set; }
@@ -223,7 +225,7 @@ namespace StarterAssets
         {
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-            targetSpeed *= _moveSpeedMultiplier * statSpeedMultiplier;
+            targetSpeed *= _moveSpeedMultiplier * statSpeedMultiplier * wind;
 
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
             float speedOffset = 0.1f;
