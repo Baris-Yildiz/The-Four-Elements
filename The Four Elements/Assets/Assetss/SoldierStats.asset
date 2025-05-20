@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EntityTypeName: EnemyTest
   BaseElementType: 2
-  MaxHealth: 100
+  MaxHealth: 500
   BaseAttack: 10
   BaseDefense: 5
   BaseSpeed: 5

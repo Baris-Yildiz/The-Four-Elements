@@ -24,6 +24,8 @@ public class MoveState : GroundState
         {
             Debug.Log("charcter controller is null");
         }
+
+        player._controller.canJump = true;
         PlayLocomotion();
     }
 
@@ -44,6 +46,7 @@ public class MoveState : GroundState
 
     public override void Exit()
     {
+        player._controller.canJump = false;
         base.Exit();
     }
 

@@ -10,10 +10,32 @@ public class PoolManager : MonoBehaviour
     public GameObject PoolObject = null;
     public int PoolAmount = 0;
 
-    void Start()
+    void Awake()
     {
         SetPooledObjects();
     }
+
+    // void OnHit(MagicFX5_EffectSettings.EffectCollisionHit hit)
+    // {
+    // }
+    //
+    // private void OnEnable()
+    // {
+    //     for (int i = 0; i < pooledObjects.Length; i++)
+    //     {
+    //         pooledObjects[i].TryGetComponent<MagicFX5_EffectSettings>(out MagicFX5_EffectSettings component);
+    //         component.OnEffectCollisionEnter += OnHit;
+    //     }
+    // }
+    //
+    // private void OnDisable()
+    // {
+    //     for (int i = 0; i < pooledObjects.Length; i++)
+    //     {
+    //         pooledObjects[i].TryGetComponent<MagicFX5_EffectSettings>(out MagicFX5_EffectSettings component);
+    //         component.OnEffectCollisionEnter -= OnHit;
+    //     }
+    // }
 
     private void SetPooledObjects()
     {

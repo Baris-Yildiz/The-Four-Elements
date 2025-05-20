@@ -3,14 +3,14 @@ using System;
 
 public class EntityHitManager : MonoBehaviour,IDamageable
 {
-    [SerializeField]
+   
     private EntityStats entityStats;
 
     private BuffManager buffManager;
     public event Action OnEntityDied;
-    public event Action<float> OnHealthChanged;
-    public event Action OnGotHit; 
-    [SerializeField]
+  //  public event Action<float,float> OnHealthChanged;
+    public event Action OnGotHit;
+    public event Action<Vector3> PointedOnGotHit;
     private EffectManager effectManager;
 
     private void Awake()
@@ -44,15 +44,24 @@ public class EntityHitManager : MonoBehaviour,IDamageable
         float damage = attacker.stats.CalculateFinalDamage(entityStats);
       //  Debug.Log("Enemy current health is : " + entityStats.currentHealth);
         
-        if (entityStats.ChangeHealth(damage) <= 0)
+        if (entityStats.ChangeHealth(damage, attacker.stats.GetAttackColor() ) <= 0)
         {
             OnEntityDied?.Invoke();
-            //return;
         }
-        
+       // Debug.Log("damage is : " + damage);
         buffManager.AddBuff(attacker.stats.element.OnHitEffectDefinition);
-        OnHealthChanged?.Invoke(attacker.stats.currentHealth);
+        //OnHealthChanged?.Invoke(entityStats.currentHealth , damage);
         OnGotHit?.Invoke();
+    }
+
+    public void CalculateHitPoint(Vector3 hitPoint)
+    {
+        PointedOnGotHit?.Invoke(hitPoint);
+    }
+
+    public float GetMaxHealth()
+    {
+        return entityStats.baseStats.MaxHealth;
     }
 
 }

@@ -14,9 +14,11 @@ public class JumpState : AirState
        // player.animator.SetBool(animationParameter , true);
         player._controller.SetMoveSpeedMultiplier(0.5f);
         AnimancerState state = animancer.Play(animationClips[0], 0.15f , FadeMode.FixedDuration);
+        player._controller.canJump = true;
         state.Events(state).OnEnd = () =>
         {
-            state.NormalizedTime = 0.8f;
+            AnimancerState s = animancer.Play(animationClips[0], 0.15f, FadeMode.FixedDuration);
+            s.NormalizedTime = 0.8f;
         };
         //animancer.Play(animationClips[0], 0.15f , FadeMode.FixedDuration);
     }
@@ -33,6 +35,7 @@ public class JumpState : AirState
     {
         //player.animator.SetBool(animationParameter , false);
         player._controller.SetMoveSpeedMultiplier(1f);
+        player._controller.canJump = false;
     }
     
 }

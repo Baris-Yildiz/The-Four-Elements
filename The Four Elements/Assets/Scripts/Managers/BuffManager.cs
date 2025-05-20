@@ -8,7 +8,13 @@ public class BuffManager : MonoBehaviour
     private EntityStats entity;
     private List<BuffInstance> entityBuffs = new List<BuffInstance>();
     private EffectManager effectManager;
+    private float currAttackMultip = 1f;
+    private float currDefenseMultip = 1f;
+    private float currSpeedMultip = 1f;
+    private float currHealthMultip = 1f;
 
+    public Action<Buff> OnBuffAdded { get; set; }
+    public Action<Buff> OnBuffRemoved { get; set; }
 
     private void Start()
     {
@@ -35,7 +41,7 @@ public class BuffManager : MonoBehaviour
                 if (vBuff.isDot && vBuff.IsTickTime(Time.deltaTime))
                 {
                    // Debug.Log("Dot is being applied");
-                    entity.ChangeHealth(vBuff.buff.DamageOverTimeAmount);
+                    entity.ChangeHealth(vBuff.buff.DamageOverTimeAmount , Color.red); 
                 }
             }
         }
@@ -64,6 +70,7 @@ public class BuffManager : MonoBehaviour
             {
                 BuffInstance instance = new BuffInstance(buff);
                 entityBuffs.Add(instance);
+                OnBuffAdded?.Invoke(buff);
                 ApplyBuffStatChange(instance);
             }
         }
@@ -75,31 +82,38 @@ public class BuffManager : MonoBehaviour
         if (buff != null)
         {
             entityBuffs.Remove(buff);
+            OnBuffRemoved?.Invoke(buff.buff);
             ResetBuff(buff);
         }
 
     }
 
-    private void ApplyBuffStatChange(BuffInstance buffInstance)
-    {
-        if (buffInstance != null)
-        {
-            entity.attackMultiplier *= buffInstance.buff.attackMultiplier;
-            entity.defenseMultiplier *= buffInstance.buff.defenseMultiplier;
-            entity.healthMultiplier *= buffInstance.buff.healthMultiplier;
-            entity.speedMultiplier *= buffInstance.buff.speedMultiplier;
 
-        }
+    void ApplyBuffsToEntity()
+    {
+        float[] buffMultips = { currAttackMultip, currDefenseMultip, currHealthMultip, currSpeedMultip }; 
+        entity.ApplyBuffMultipliers(buffMultips);
     }
-    private void ResetBuff(BuffInstance buffInstance)
-    {
-        if (buffInstance != null)
-        {
-            entity.attackMultiplier *= 1/buffInstance.buff.attackMultiplier;
-            entity.defenseMultiplier *= 1/buffInstance.buff.defenseMultiplier;
-            entity.healthMultiplier *= 1/buffInstance.buff.healthMultiplier;
-            entity.speedMultiplier *= 1/buffInstance.buff.speedMultiplier;
 
-        }
+    private void ApplyBuffStatChange(BuffInstance instance)
+    {
+        currAttackMultip *= instance.buff.attackMultiplier;
+        currDefenseMultip *= instance.buff.defenseMultiplier;
+        currHealthMultip *= instance.buff.healthMultiplier;
+        currSpeedMultip *= instance.buff.speedMultiplier;
+        ApplyBuffsToEntity();
+        entity.ApplyElementStats();
+
+
+
+    }
+    private void ResetBuff(BuffInstance instance)
+    {
+        currAttackMultip *= 1/instance.buff.attackMultiplier;
+        currDefenseMultip *= 1/instance.buff.defenseMultiplier;
+        currHealthMultip *= 1/instance.buff.healthMultiplier;
+        currSpeedMultip *= 1/instance.buff.speedMultiplier;
+        ApplyBuffsToEntity();
+        entity.ApplyElementStats();
     }
 }

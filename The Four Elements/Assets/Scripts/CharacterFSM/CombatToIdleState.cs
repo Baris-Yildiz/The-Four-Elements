@@ -14,6 +14,7 @@ public class CombatToIdleState : State
         AnimancerState state = null;
         state = animancer.Layers[1].Play(animationClips[1], 0.3f);
         state.Events(state, out AnimancerEvent.Sequence events);
+        events.Clear();
         events.Add(0.52f, player.SheatSword);
         events.Add(0.8f, () => { stateMachine.ChangeState(player.NonCombatMoveState); });
        // animancer.Layers[1].SetWeight(0.8f);

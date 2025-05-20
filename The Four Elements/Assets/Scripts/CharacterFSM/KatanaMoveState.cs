@@ -19,6 +19,7 @@ public class KatanaMoveState: MoveState
 
         if (player._controller._input.spell1)
         {
+            //Debug.Log("changing to spellll");
             player.stateMachine.ChangeState(player.spellState);
             player._controller._input.spell1 = false;
             return;

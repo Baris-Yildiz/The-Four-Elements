@@ -17,7 +17,7 @@ public class PlayerDetection : MonoBehaviour
 
     [Header("References (Assign or Get)")]
     [SerializeField] private StateMachine stateMachine; // Reference to your state machine
-    [SerializeField] private Player player; // Reference to your player data/states script
+    private Player player; // Reference to your player data/states script
 
     [SerializeField] private float stanceChangeTime = 3f;
 

@@ -5,9 +5,9 @@ using Random = UnityEngine.Random;
 
 public class NavmeshMovement : MonoBehaviour
 {
+   
     private NavMeshAgent agent;
-    public Vector3 velocity { get; private set; }
-    [SerializeField] private Transform player;
+    private Transform player;
     private EnemyInputs inputs;
     //[field: SerializeField] public float attackSpeed { get; set; }
     [SerializeField]private float attackCd;
@@ -18,21 +18,28 @@ public class NavmeshMovement : MonoBehaviour
     private Entity enemy;
     public float visionStr = 1f;
    // public float rotationSpeed = 180f;
-    [SerializeField] private Transform rayPoint;
-    private bool rotationCompleted = false;
+    private Transform rayPoint;
+   
     private void Awake()
     {
+        rayPoint = transform.Find("RayPoint");
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         inputs = GetComponent<EnemyInputs>();
         enemy = GetComponent<Entity>();
         attackManager = GetComponent<EntityAttackManager>();
-        attackCd = inputs.attackSpeed;
+        
+        
     }
     
     // Update is called once per frame
     void Update()
     {
-        if (inputs.gotHit)
+       // Debug.LogWarning("speed: " + inputs.navSpeed);
+        //Debug.LogWarning("accleration: " + inputs.navAcceleration);
+        agent.speed = inputs.navSpeed;
+        agent.acceleration = inputs.navAcceleration;
+        if (inputs.gotHit || inputs.isDead)
         {
             agent.enabled = false;
             return;
@@ -41,12 +48,16 @@ public class NavmeshMovement : MonoBehaviour
         agent.enabled = true;
         inputs.velocity = agent.velocity;
         //RotateTowardsTarget(rayPoint , Mathf.Infinity,false);
-        if (inputs.playerDetected && inputs.chasePlayer || (!inputs.startRotation && !inputs.chasePlayer))
+       // Debug.Log(agent.pathStatus);
+        if ((agent.destination - inputs.hitPosition).sqrMagnitude > 0.1f && (inputs.playerDetected && inputs.chasePlayer || (!inputs.startRotation && !inputs.chasePlayer)))
         {
+           // Debug.LogWarning((agent.destination - inputs.hitPosition).sqrMagnitude);
+            //Debug.LogWarning(agent.pathStatus);
             agent.SetDestination(inputs.hitPosition);
         }
-        else if (!inputs.playerDetected && inputs.chasePlayer)
+        else if ((agent.destination - inputs.lastPosition).sqrMagnitude > 0.1f && (!inputs.playerDetected && inputs.chasePlayer))
         {
+            Debug.LogWarning("shouldnt be here");
             agent.SetDestination(inputs.lastPosition);
         }
         else if (inputs.playerDetected && inputs.startRotation )
@@ -76,6 +87,7 @@ public class NavmeshMovement : MonoBehaviour
             {
                 playerHit = hit.collider.gameObject.GetComponent<EntityHitManager>();
             }
+            EnemyVFXPooler.Instance.PlayParticle(hit.point , inputs.attackSpeed , inputs.attackColor);
             playerHit.TakeDamage(enemy);
         }
 

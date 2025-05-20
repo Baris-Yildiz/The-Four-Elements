@@ -8,7 +8,6 @@ public class ProjectileSkill : SkillInstance
     public ProjectileSkill(Skill skill, int charge) : base(skill, charge)
     {
     }
-    
     public override void Activate()
     {
         if (targetDirection != null)

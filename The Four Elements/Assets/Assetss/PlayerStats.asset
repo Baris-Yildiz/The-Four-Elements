@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d016d9475101af4383140ca4bd2c8a0, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  EntityTypeName: DefaultEntity
-  BaseElementType: 0
-  MaxHealth: 100
-  BaseAttack: 10
-  BaseDefense: 5
+  EntityTypeName: Player
+  BaseElementType: 1
+  MaxHealth: 1000
+  BaseAttack: 1000
+  BaseDefense: 50
   BaseSpeed: 5
   FireResistance: 1
   WaterResistance: 1

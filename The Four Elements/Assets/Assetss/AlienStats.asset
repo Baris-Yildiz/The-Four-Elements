@@ -15,8 +15,8 @@ MonoBehaviour:
   EntityTypeName: DefaultEntity
   BaseElementType: 0
   MaxHealth: 100
-  BaseAttack: 10
-  BaseDefense: 5
+  BaseAttack: 40
+  BaseDefense: 20
   BaseSpeed: 5
   FireResistance: 1
   WaterResistance: 1

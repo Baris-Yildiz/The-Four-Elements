@@ -14,6 +14,7 @@ public class AttackState : GroundState
     private float minR = 1.5f;
     private bool startMoving = false;
     private int lastIndex =-1;
+    private bool canInterruptable = false;
     public AttackState(Player player, string animationParameter, StateMachine stateMachine, AnimationClip[] stateClips, AnimancerComponent animancer)
         : base(player, animationParameter, stateMachine, stateClips, animancer)
     {
@@ -76,12 +77,22 @@ public class AttackState : GroundState
         _currentState = animancer.Play(clipToPlay, 0.2f, FadeMode.FixedDuration);
         _currentState.Speed = 1.2f;
         canStartAnim = false;
+        _currentState.Events(_currentState, out AnimancerEvent.Sequence events);
+        events.Clear();
+        events.Add(0.6f, SetInterrupt);
         _currentState.Events(_currentState).OnEnd = null;
         _currentState.Events(_currentState).OnEnd += HandleAnimationEnd;
     }
 
     public override void Update()
     {
+        if (canInterruptable && player._controller._input.move != Vector2.zero)
+        {
+            player.stateMachine.ChangeState(player.KatanaMoveState);
+            return;
+        }
+
+
         if (player._controller._input.leftAttack)
         {
             _requestNextAttack = true;
@@ -91,7 +102,7 @@ public class AttackState : GroundState
         {
             float dist = Mathf.Abs(Vector3.Distance(player.target.transform.position, player.transform.position));
 //            Debug.Log(dist);
-            if (dist > minR && dist < minR+range && startMoving)
+            if (dist > minR && dist < minR+range && !canInterruptable)
             {
                // animancer.Animator.applyRootMotion = false;
                 RotateTowardsTarget();
@@ -119,7 +130,7 @@ public class AttackState : GroundState
     private void HandleAnimationEnd()
     {
 
-
+        canInterruptable = false;
         canStartAnim = true;
         if (_requestNextAttack)
         {
@@ -154,6 +165,7 @@ public class AttackState : GroundState
     public override void Exit()
     {
         base.Exit();
+        canInterruptable = false;
         startMoving = false;
         player.swordCollider.enabled = false;
         animancer.Animator.applyRootMotion = false;
@@ -175,5 +187,10 @@ public class AttackState : GroundState
             player.transform.rotation = Quaternion.LookRotation(newDirection);
         }
     }
-    
+
+    private void SetInterrupt()
+    {
+        canInterruptable = true;
+    }
+
 }

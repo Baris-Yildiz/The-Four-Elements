@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public Animator animator { get; private set; }
     [field:SerializeField] public AnimancerComponent animancer { get; private set; }
     [field:SerializeField]public ThirdPersonController _controller { get; private set; }
+    
     [SerializeField] private PlayerEvents events;
     [SerializeField] private AvatarMask upperBodyMask;
     [SerializeField] private AvatarMask leftHandMask;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float walkingT = 0.3f;
     [SerializeField] private float runningT = 0.6f;
     public StateMachine stateMachine { get; private set; }
-    public IdleState idleState{ get; private set; }
+   
     public NonCombatMoveState NonCombatMoveState { get; private set; }
     public KatanaMoveState KatanaMoveState { get; private set; }
     //public MoveState moveState{ get; private set; }
@@ -48,10 +49,20 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject sheatedSword;
     [SerializeField] private GameObject unsheatedSword;
     [field: SerializeField] public PlayerSkills playerSkills { get; private set; }
-    
+
+
+
+    public bool GetSwordState()
+    {
+        return sheatedSword.activeSelf;
+        
+    }
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
+        control = GetComponent<ThirdPersonController>();
+        animancer = GetComponent<AnimancerComponent>();
         sheatedSword.SetActive(true);
         unsheatedSword.SetActive(false);
 
@@ -75,7 +86,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+      //  SetAnimationSpeed(_controller.statSpeedMultiplier);
         if (_controller._input.spell2)
         {
             stateMachine.ChangeState(katanaSkillState);
@@ -86,9 +97,16 @@ public class Player : MonoBehaviour
         
     }
 
+    void SetAnimationSpeed(float speed)
+    {
+        animancer.Layers[0].Speed = Mathf.Min(1.2f, speed);
+        animancer.Layers[1].Speed = Mathf.Min(1.2f, speed);;
+        animancer.Layers[2].Speed = Mathf.Min(1.2f, speed);
+    }
+
     void InitializeStates()
     {
-        idleState = new IdleState(this, "Speed", stateMachine , locomotionClips , animancer);
+      
         NonCombatMoveState = new NonCombatMoveState(this, "Speed", stateMachine, locomotionClips, animancer, walkingT, runningT);
         KatanaMoveState = new KatanaMoveState(this, "Speed", stateMachine, katanaLocomotionClips, animancer, walkingT, runningT);
         //moveState = new MoveState(this, "Speed", stateMachine,locomotionClips,animancer , walkingT , runningT);

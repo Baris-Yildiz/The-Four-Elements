@@ -9,5 +9,4 @@ public class EffectData : ScriptableObject
     public bool audioLoop;
     public VisualEffectAsset vfx;
     public float vfxDuration;
-    
 }

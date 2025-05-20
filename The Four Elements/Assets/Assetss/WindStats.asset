@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d016d9475101af4383140ca4bd2c8a0, type: 3}
+  m_Name: WindStats
+  m_EditorClassIdentifier: 
+  EntityTypeName: DefaultEntity
+  BaseElementType: 3
+  MaxHealth: 300
+  BaseAttack: 20
+  BaseDefense: 20
+  BaseSpeed: 5
+  FireResistance: 1.22
+  WaterResistance: 0.74
+  SoilResistance: 0.73
+  WindResistance: 1.28

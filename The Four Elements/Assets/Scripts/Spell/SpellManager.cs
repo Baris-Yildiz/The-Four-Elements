@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using MagicFX5;
 
 public class SpellManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class SpellManager : MonoBehaviour
             currentSpellIndex = value;
         }
     }
+
     public GameObject player;
     public Transform raycastStartTransform;
     
@@ -36,12 +38,19 @@ public class SpellManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+        
+    }
+
+    void OnEnable()
+    {
+        
+        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -59,11 +68,7 @@ public class SpellManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SwitchSpellType();
-        }
+
 
         
 
@@ -71,7 +76,6 @@ public class SpellManager : MonoBehaviour
         {
             ShootForward();
         }
-
     }
 
     public void SpawnSpellObject(Transform target)

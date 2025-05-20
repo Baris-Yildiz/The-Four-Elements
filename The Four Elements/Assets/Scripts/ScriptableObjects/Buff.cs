@@ -9,6 +9,7 @@ public class Buff : ScriptableObject
     public string buffId;
     public EffectType effectType;
     public float duration;
+    public Sprite effectIcon;
     /*
     public Sprite effectIcon;
     public AudioClip audio;

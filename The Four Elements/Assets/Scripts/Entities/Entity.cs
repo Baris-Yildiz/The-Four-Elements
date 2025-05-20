@@ -5,25 +5,18 @@ using Random = UnityEngine.Random;
 
 public class Entity : MonoBehaviour 
 {
-   [field:SerializeField]
     public EntityStats stats { get; private set; }
     public Material OnDieMaterial { get; private set; } //should be BurnShader
+   
     
     protected virtual void Awake()
     {
-        
-        
+        stats = GetComponent<EntityStats>();
     }
-
-    
-
-   
-
-    
-
     public virtual void Die()
     {
         ChangeMaterialTo(OnDieMaterial);
+       
     }
 
     private void ChangeMaterialTo(Material material)
@@ -41,11 +34,6 @@ public class Entity : MonoBehaviour
         {
             mr.materials = new Material[] { material };
         }
+        Destroy(gameObject , 2f);
     }
-    
-    
-
-
-    
-
 }

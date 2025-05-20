@@ -11,6 +11,7 @@ public class FallState : AirState
     {
        // player.animator.SetBool(animationParameter  , true);
         player._controller.SetMoveSpeedMultiplier(0f);
+        player._controller.canJump = true;
         animancer.Play(animationClips[1],0.1f);
         
     }
@@ -28,17 +29,18 @@ public class FallState : AirState
     {
         //player.animator.SetBool(animationParameter  , false);
         player._controller.SetMoveSpeedMultiplier(1f);
+        player._controller.canJump = false;
     }
 
     private void ChangeToMove()
     {
-        if (player.IsCombatState)
+        if ((player.IsCombatState && player.GetSwordState()) || !player.IsCombatState)
         {
-            stateMachine.ChangeState(player.KatanaMoveState);
+            stateMachine.ChangeState(player.NonCombatMoveState);
         }
         else
         {
-            stateMachine.ChangeState(player.NonCombatMoveState);
+            stateMachine.ChangeState(player.KatanaMoveState);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿ using UnityEngine;
+﻿ using System;
+ using UnityEngine;
+ using Random = UnityEngine.Random;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -14,6 +16,8 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
+
+        private EntityStats stats;
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -83,6 +87,8 @@ namespace StarterAssets
 
 
         private float _moveSpeedMultiplier = 0.0f;
+
+        public float statSpeedMultiplier = 1f;
         // player
         public float _speed { get; private set; }
         public float _animationBlend { get; private set; }
@@ -94,6 +100,8 @@ namespace StarterAssets
         // timeout deltatime
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
+
+        public bool canJump { get; set; } = true;
 
         // animation IDs
         private int _animIDSpeed;
@@ -129,10 +137,27 @@ namespace StarterAssets
 
         private void Awake()
         {
+            stats = GetComponent<EntityStats>();
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+        }
+
+        private void OnEnable()
+        {
+            stats.OnStatChange += SetStatSpeedMultiplier;
+        }
+
+        private void OnDisable()
+        {
+            stats.OnStatChange -= SetStatSpeedMultiplier;
+        }
+
+        void SetStatSpeedMultiplier()
+        {
+            statSpeedMultiplier = stats.speedMultiplier;
+            
         }
 
         private void Start()
@@ -198,7 +223,7 @@ namespace StarterAssets
         {
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
-            targetSpeed *= _moveSpeedMultiplier;
+            targetSpeed *= _moveSpeedMultiplier * statSpeedMultiplier;
 
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
             float speedOffset = 0.1f;
@@ -278,36 +303,50 @@ namespace StarterAssets
         {
             if (Grounded)
             {
-                
+                // Reset the fall timeout timer when grounded
                 _fallTimeoutDelta = FallTimeout;
 
+                // Stop our velocity dropping infinitely when grounded
+                // This should happen regardless of whether canJump is true or false
                 if (_verticalVelocity < 0.0f)
                 {
                     _verticalVelocity = -2f;
                 }
 
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                // Jump logic: only process jump input if canJump is true
+                if (canJump && _input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
-
+                    // The square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+                    // TODO: Trigger jump animation if animator is available and setup
+                    // if (_animator != null)
+                    // {
+                    //     _animator.SetBool(_animIDJump, true); 
+                    // }
                 }
 
-
+                // Jump timeout
                 if (_jumpTimeoutDelta >= 0.0f)
                 {
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
             }
-            else
+            else // Not Grounded
             {
+                // Reset the jump timeout timer if we are not grounded
                 _jumpTimeoutDelta = JumpTimeout;
+
+                // Fall timeout
                 if (_fallTimeoutDelta >= 0.0f)
                 {
                     _fallTimeoutDelta -= Time.deltaTime;
                 }
-              
+   
                 _input.jump = false;
             }
+
+            // Apply gravity consistently, but only if vertical velocity is below terminal velocity
             if (_verticalVelocity < _terminalVelocity)
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
