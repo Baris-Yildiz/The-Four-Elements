@@ -4,6 +4,7 @@ using UnityEngine;
 public class IceReactionManager : EnvironmentReactionManager
 {
     public Material freezeMat;
+    public GameObject wallToDisable;
     public override void ReactToEffect()
     {
         
@@ -20,6 +21,10 @@ public class IceReactionManager : EnvironmentReactionManager
         gameObject.GetComponent<BoxCollider>().enabled = false;
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         
+        if (wallToDisable != null )
+        {
+            wallToDisable.SetActive(false);
+        }
 
     }
 

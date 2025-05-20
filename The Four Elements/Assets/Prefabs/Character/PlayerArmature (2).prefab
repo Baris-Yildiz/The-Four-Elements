@@ -2856,7 +2856,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1.8
   m_Radius: 0.75
-  m_SlopeLimit: 45
+  m_SlopeLimit: 50
   m_StepOffset: 0.25
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
@@ -2907,6 +2907,7 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   statSpeedMultiplier: 1
+  wind: 1
 --- !u!114 &9097948492561462939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3123,6 +3124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6ef04b1dbb575645a2d2079450f9b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <OnDieMaterial>k__BackingField: {fileID: 0}
 --- !u!114 &5693457189288621472
 MonoBehaviour:
   m_ObjectHideFlags: 0

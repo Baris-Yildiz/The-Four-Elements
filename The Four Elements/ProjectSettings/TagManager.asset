@@ -11,6 +11,7 @@ TagManager:
   - Ice
   - Wind
   - Soil
+  - Canvas
   layers:
   - Default
   - TransparentFX
