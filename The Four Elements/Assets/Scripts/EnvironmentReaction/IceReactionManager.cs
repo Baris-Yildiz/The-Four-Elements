@@ -6,7 +6,7 @@ public class IceReactionManager : EnvironmentReactionManager
     public Material freezeMat;
     public override void ReactToEffect()
     {
-
+        
         StartCoroutine(AddMaterialAfterSeconds(5f));
         
     }
@@ -14,21 +14,19 @@ public class IceReactionManager : EnvironmentReactionManager
     IEnumerator AddMaterialAfterSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        print("girdim");
-        gameObject.GetComponent<MeshRenderer>().materials = new Material[] { freezeMat };
-        
-    }
+        Transform child = gameObject.transform.GetChild(0);
+        child.gameObject.SetActive(true);
 
-    IEnumerator ConvertToSoilReactiveObject(float seconds) { 
-        yield return new WaitForSeconds(seconds);
-        SoilReactionManager soilReactionManager = gameObject.AddComponent<SoilReactionManager>();
+        gameObject.GetComponent<BoxCollider>().enabled = false;
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        
+
     }
 
     private void OnParticleCollision(GameObject other)
     {
         if (!isHit && other.GetComponentInParent<MagicFX5_EffectSettings>().gameObject.CompareTag("Ice"))
         {
-            print("?");
             ReactToEffect();
             isHit = true;
         }

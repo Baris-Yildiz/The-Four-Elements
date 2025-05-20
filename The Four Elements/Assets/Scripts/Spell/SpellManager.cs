@@ -1,4 +1,5 @@
 using Cinemachine;
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 
@@ -17,14 +18,13 @@ public class SpellManager : MonoBehaviour
             currentSpellIndex = value;
         }
     }
-
-    public Transform dummy;
     public GameObject player;
     public Transform raycastStartTransform;
+    
 
     public CinemachineVirtualCamera playerCamera;
+    
     public LayerMask LayerMask;
-    public GameObject InvisibleSpellWall;
 
     private PoolManager[] poolManagers;
     private PoolManager invisibleWallPoolManager;
@@ -59,15 +59,11 @@ public class SpellManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetKeyDown(KeyCode.R))
         {
             SwitchSpellType();
         }
-        /*
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            SpawnSpellObject(dummy);
-        }*/
 
         
 
@@ -80,6 +76,7 @@ public class SpellManager : MonoBehaviour
 
     public void SpawnSpellObject(Transform target)
     {
+        
         poolManagers[CurrentSpellIndex].OnSpawnPooledObject = (GameObject spellObj) =>
         {
             if (spellObj.TryGetComponent<MagicFX5_EffectSettings>(out MagicFX5_EffectSettings component))
@@ -87,13 +84,20 @@ public class SpellManager : MonoBehaviour
                 Transform[] targetArray = new Transform[1];
                 targetArray[0] = target;
                 component.Targets = targetArray;
-            } else //wind
+            } else
             {
-                
+                spellObj.GetComponentInChildren<WindSpellZone>().HitPlayer = false;
             }
         };
-
-        poolManagers[CurrentSpellIndex].SpawnPooledObject(raycastStartTransform.position, raycastStartTransform.rotation);
+        if (CurrentSpellIndex == 2)
+        {
+            Vector3 windSpawnPosition = playerCamera.Follow.position + (playerCamera.Follow.position - playerCamera.transform.position).normalized;
+            poolManagers[CurrentSpellIndex].SpawnPooledObject(windSpawnPosition, GameObject.FindWithTag("MainCamera").transform.rotation) ;
+        } else
+        {
+            poolManagers[CurrentSpellIndex].SpawnPooledObject(raycastStartTransform.position, raycastStartTransform.rotation);
+        }
+        
 
     }
 
@@ -105,7 +109,6 @@ public class SpellManager : MonoBehaviour
     public void ShootForward()
     {
         RaycastHit hit;
-        Debug.DrawLine(playerCamera.transform.position, playerCamera.Follow.position, Color.black);
         // check for burnable
         if (Physics.Raycast(raycastStartTransform.position, playerCamera.Follow.position - playerCamera.transform.position, out hit, Mathf.Infinity, LayerMask))
         {
@@ -117,7 +120,7 @@ public class SpellManager : MonoBehaviour
             RaycastHit hitNoMask;
             if (Physics.Raycast(raycastStartTransform.position, playerCamera.Follow.position - playerCamera.transform.position, out hitNoMask, Mathf.Infinity))
             {
-                GameObject spawnedWall = invisibleWallPoolManager.SpawnPooledObject(hitNoMask.point, Quaternion.identity);// Instantiate(InvisibleSpellWall, hitNoMask.point, Quaternion.identity);
+                GameObject spawnedWall = invisibleWallPoolManager.SpawnPooledObject(hitNoMask.point, Quaternion.identity);
                 SpawnSpellObject(spawnedWall.transform);
             }
         }
