@@ -17,8 +17,8 @@ public class WindSpellZone : MonoBehaviour
             HitPlayer = true;
             CinemachineVirtualCamera playerCamera = GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>();
             //Vector3 force = (playerCamera.Follow.position - playerCamera.transform.position).normalized;
-            Vector3 force = (other.transform.forward*(-1)).normalized;
-            StartCoroutine(MoveChar(other.gameObject , force , 0.25f));
+            Vector3 force = Vector3.up * 0.1f;
+            StartCoroutine(MoveChar(other.gameObject , force , 0.5f));
             print("hit player");
         }
     }
