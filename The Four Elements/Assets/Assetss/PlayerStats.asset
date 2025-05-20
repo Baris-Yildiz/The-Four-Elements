@@ -16,7 +16,7 @@ MonoBehaviour:
   BaseElementType: 1
   MaxHealth: 1000
   BaseAttack: 1000
-  BaseDefense: 50
+  BaseDefense: 20
   BaseSpeed: 5
   FireResistance: 1
   WaterResistance: 1
