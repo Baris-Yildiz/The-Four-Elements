@@ -13,6 +13,7 @@ public class SceneTranstion : MonoBehaviour
     {
         Time.timeScale = 1f;
         StartCoroutine(LoadYourAsyncScene());
+        Cursor.visible = false;
     }
 
     IEnumerator LoadYourAsyncScene()

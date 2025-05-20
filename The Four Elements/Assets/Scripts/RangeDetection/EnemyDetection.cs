@@ -81,7 +81,7 @@ public class EnemyDetection : MonoBehaviour
             hit.transform.CompareTag("Player"))
         {
             
-            enemy.lastPosition = new Vector3(hit.transform.position.x, 0, hit.transform.position.z);
+            enemy.lastPosition = new Vector3(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
             enemy.playerDetected = true;
             remainingStopTime = stopTime;
             tempAngle = detectedAngle;
