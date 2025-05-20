@@ -50,7 +50,7 @@ public class ElementSwitchUI : MonoBehaviour
 
     void SwitchElementUI(ElementalType type)
     {
-        Debug.LogWarning(type);
+//        Debug.LogWarning(type);
         switch (type)
         {
             case ElementalType.FIRE:

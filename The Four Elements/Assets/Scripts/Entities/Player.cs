@@ -49,7 +49,13 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject sheatedSword;
     [SerializeField] private GameObject unsheatedSword;
     [field: SerializeField] public PlayerSkills playerSkills { get; private set; }
-    
+
+
+
+    public bool GetSwordState()
+    {
+        return sheatedSword.activeSelf;
+    }
 
     private void Awake()
     {

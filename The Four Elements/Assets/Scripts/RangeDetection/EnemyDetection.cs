@@ -5,23 +5,24 @@ using UnityEngine;
 public class EnemyDetection : MonoBehaviour
 {
     private EnemyInputs enemy;
-    [SerializeField] private float detectionFreq = 0.5f;
-    [SerializeField] private Transform player;
-    [SerializeField] private float viewAngle;
+    [SerializeField] private float detectionFreq = 1f;
+     private Transform player;
+    [SerializeField] private float viewAngle=210f;
     [SerializeField] private float detectedAngle = 360f;
-    [SerializeField] private float viewDistance;
+    [SerializeField] private float viewDistance = 15f;
     [SerializeField] private LayerMask detectionLayer;
     [SerializeField] private float stopTime = 3f;
     private float remainingStopTime;
-    [SerializeField] private float tempAngle;
-    [SerializeField] private Transform rayPoint;
+    private float tempAngle;
+    private Transform rayPoint;
     private bool canDetect = true;
-    public bool isPlayerDetected = false;
 
     private float cosHalfViewAngle;  // Cosine of half of view angle
 
     private void Awake()
     {
+        rayPoint = transform.Find("RayPoint");
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         tempAngle = viewAngle;
         remainingStopTime = stopTime;
         enemy = GetComponent<EnemyInputs>();

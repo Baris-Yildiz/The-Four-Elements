@@ -13,6 +13,7 @@ public class EnemySFX : MonoBehaviour
    private void Awake()
    {
       _source = GetComponent<AudioSource>();
+      _source.spatialBlend = 1f;
       _source.volume = volume;
    }
 
@@ -30,6 +31,7 @@ public class EnemySFX : MonoBehaviour
    public void PlayAttackSoundLoop(float attackSpeed)
    {
       int index = Random.Range(0, attackSounds.Length);
+      
       _source.clip = attackSounds[index];
       _source.loop = true;
       _source.pitch = attackSounds[index].length / attackSpeed;
@@ -38,6 +40,7 @@ public class EnemySFX : MonoBehaviour
 
    public void ResetLoop()
    {
+      
       _source.clip = null;
       _source.pitch = 1;
       _source.loop = false;

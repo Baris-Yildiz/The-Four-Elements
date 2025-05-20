@@ -51,11 +51,5 @@ public class GameManager : MonoBehaviour
       Time.fixedDeltaTime = 0.02f * originalTimeScale;
       _isHitStopping = false;
    }
-
-   IEnumerator ChangeTimeScale(float scale, float time)
-   {
-      Time.timeScale = scale;
-      yield return new WaitForSecondsRealtime(time);
-      Time.timeScale = 1;
-   }
+   
 }

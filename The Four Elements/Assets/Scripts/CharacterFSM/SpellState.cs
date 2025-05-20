@@ -19,7 +19,19 @@ public class SpellState: State
         events.Clear();
         events.Add(0.28f,player.playerSkills.projectileSkill.Activate);
         state.Events(state).OnEnd = null;
-        state.Events(state).OnEnd += (() => stateMachine.ChangeState(player.KatanaMoveState));
+        state.Events(state).OnEnd += (SetNextState);
+    }
+
+    void SetNextState()
+    {
+        if ((player.IsCombatState && player.GetSwordState()) || !player.IsCombatState)
+        {
+            stateMachine.ChangeState(player.NonCombatMoveState);
+        }
+        else
+        {
+            stateMachine.ChangeState(player.KatanaMoveState);
+        }
     }
 
     public override void Update()

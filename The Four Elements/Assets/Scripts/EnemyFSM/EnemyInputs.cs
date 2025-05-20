@@ -30,7 +30,7 @@ public class EnemyInputs : MonoBehaviour
     [SerializeField] private float accelerationAmount;
     [SerializeField] private float attackSpeedEffect;
     [field:SerializeField] public float rotationSpeed { get; set; }
-
+    public Color attackColor { get; private set; }
 
     private EntityHitManager _entityHitManager;
     public Vector3 hitDirection { get; set; }
@@ -41,7 +41,7 @@ public class EnemyInputs : MonoBehaviour
     private void Awake()
     {
         stats = GetComponent<EntityStats>();
-        
+        attackColor = stats.GetAttackColor();
         canAttack = false;
         playerDetected = false;
         lastPosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
@@ -82,7 +82,7 @@ public class EnemyInputs : MonoBehaviour
 
         if (playerDetected && (lastPosition - hitPosition).sqrMagnitude > attackRangeSqr)
         {
-            print("1");
+           // print("1");
             startRotation = false;
             canAttack = false;
             CalculateHitPosition();
@@ -90,7 +90,7 @@ public class EnemyInputs : MonoBehaviour
 
         if ((hitPosition - transform.position).sqrMagnitude <= 0.2f * 0.2f)
         {
-            print("222222222");
+           // print("222222222");
             
             startRotation = true;
             canAttack = angle <5f && angle > -5f; 

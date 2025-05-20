@@ -7,7 +7,7 @@ public class NavmeshMovement : MonoBehaviour
 {
    
     private NavMeshAgent agent;
-    [SerializeField] private Transform player;
+    private Transform player;
     private EnemyInputs inputs;
     //[field: SerializeField] public float attackSpeed { get; set; }
     [SerializeField]private float attackCd;
@@ -18,10 +18,12 @@ public class NavmeshMovement : MonoBehaviour
     private Entity enemy;
     public float visionStr = 1f;
    // public float rotationSpeed = 180f;
-    [SerializeField] private Transform rayPoint;
+    private Transform rayPoint;
    
     private void Awake()
     {
+        rayPoint = transform.Find("RayPoint");
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         inputs = GetComponent<EnemyInputs>();
         enemy = GetComponent<Entity>();
@@ -85,6 +87,7 @@ public class NavmeshMovement : MonoBehaviour
             {
                 playerHit = hit.collider.gameObject.GetComponent<EntityHitManager>();
             }
+            EnemyVFXPooler.Instance.PlayParticle(hit.point , inputs.attackSpeed , inputs.attackColor);
             playerHit.TakeDamage(enemy);
         }
 

@@ -109,7 +109,7 @@ public class EntityStats : MonoBehaviour
             case ElementalType.FIRE:
                 return Color.red;
             case ElementalType.SOIL:
-                return new Color(r:150, g: 75, b: 0);
+                return Color.red;
             case ElementalType.WIND:
                 return Color.green;
             case ElementalType.WATER:

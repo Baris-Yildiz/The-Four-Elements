@@ -18,20 +18,21 @@ public class PlayerSFX : MonoBehaviour
     {
         _source = GetComponent<AudioSource>();
         _source.volume = volume;
+        _source.spatialBlend = 1f;
     }
 
     public void PlaySlashClip()
     {
         int index = Random.Range(0, 1);
         int index1 = Random.Range(0, manSlashSounds.Length);
-        AudioSource.PlayClipAtPoint(slashClips[index] ,swordTransform.position );
+        AudioSource.PlayClipAtPoint(slashClips[index] ,transform.position );
         _source.PlayOneShot(manSlashSounds[index1]);
     }
     public void PlayStabClip()
     {
         int index = Random.Range(0, 1);
         int index1 = Random.Range(0, manSlashSounds.Length);
-        AudioSource.PlayClipAtPoint(stabClips[index] ,swordTransform.position );
+        AudioSource.PlayClipAtPoint(stabClips[index] ,transform.position );
         _source.PlayOneShot(manSlashSounds[index1]);
     }
 

@@ -1,38 +1,28 @@
-using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class FloatingText : MonoBehaviour
 {
     private RectTransform rectTransform;
     private TextMeshProUGUI text;
-    private Vector3 offSet;
 
-    [SerializeField] private float alphaSpeed;
-    [SerializeField] private Vector3 movementSpeed;
+    [SerializeField] private float alphaSpeed = 1f;
+    [SerializeField] private Vector3 movementSpeed = new Vector3(0, 0f, 0);
+    [SerializeField] private Vector2 offSetX = new Vector2(-0.2f, 0.2f);
+    [SerializeField] private Vector2 offSetY = new Vector2(0.1f, 0.3f);
+    [SerializeField] private Vector3 startingOffSet = Vector3.zero;
     private bool initialized = false;
-
-    [SerializeField] private Vector2 offSetX;
-    [SerializeField] private Vector2 offSetY;
+    private float startingFontSize;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         text = GetComponent<TextMeshProUGUI>();
-
-        offSet = new Vector3(Random.Range(offSetX.x, offSetX.y), Random.Range(offSetY.x, offSetY.y), 0);
-        transform.position += offSet;
-
-        // Default color
-        text.color = Color.red;
-
-        // Set font weight thicker
+        startingFontSize = text.fontSize;
         text.fontWeight = FontWeight.Bold;
-
-        // Optional: increase face dilation or outline for bolder effect
-        text.enableVertexGradient = true;
-        text.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0.5f);  // Make text thicker
+        rectTransform.localPosition = startingOffSet;
+        // Optional: outline for visibility
         text.fontMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.2f);
         text.fontMaterial.SetColor(ShaderUtilities.ID_OutlineColor, Color.black);
     }
@@ -41,11 +31,16 @@ public class FloatingText : MonoBehaviour
     {
         if (!initialized) return;
 
-        Color c = text.color;
-        c.a -= alphaSpeed * Time.deltaTime;
-        text.color = c;
+        // Fade out
+        Color currentColor = text.color;
+        currentColor.a -= alphaSpeed * Time.deltaTime;
+        text.color = currentColor;
+        text.fontSize += alphaSpeed * Time.deltaTime / 4;
+        // Float upward
+        rectTransform.localPosition += movementSpeed * Time.deltaTime;
+        
 
-        if (c.a <= 0f)
+        if (currentColor.a <= 0f)
         {
             ResetText();
         }
@@ -55,36 +50,24 @@ public class FloatingText : MonoBehaviour
     {
         gameObject.SetActive(true);
         text.text = _text;
-
-        // Create a simple vertical gradient from the base color to a darker shade
-        text.enableVertexGradient = true;
-
-        VertexGradient gradient = new VertexGradient(
-            baseColor,                                    // top left
-            baseColor,                                    // top right
-            baseColor * 0.6f,                             // bottom left
-            baseColor * 0.6f                              // bottom right
+        text.color = baseColor;
+        text.fontSize  = startingFontSize;
+       rectTransform.localPosition = startingOffSet;
+        Vector3 offset = new Vector3(
+            Random.Range(offSetX.x, offSetX.y),
+            Random.Range(offSetY.x, offSetY.y),
+            0
         );
-        text.colorGradient = gradient;
+        rectTransform.localPosition += offset;
 
-        // Make it bolder visually
-        text.fontWeight = FontWeight.Bold;
-        text.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0.5f);
-        text.fontMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.2f);
-        text.fontMaterial.SetColor(ShaderUtilities.ID_OutlineColor, Color.black);
-
-        offSet = new Vector3(Random.Range(offSetX.x, offSetX.y), Random.Range(offSetY.x, offSetY.y), 0);
-        rectTransform.anchoredPosition += (Vector2)offSet;
         initialized = true;
     }
 
     void ResetText()
     {
-        gameObject.SetActive(false);
-
-        text.color = Color.red;
-        rectTransform.anchoredPosition -= (Vector2)offSet;
-        text.alpha = 1;
+        text.fontSize  = startingFontSize;
         initialized = false;
+        gameObject.SetActive(false);
+        rectTransform.localPosition = startingOffSet;
     }
 }

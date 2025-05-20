@@ -79,7 +79,7 @@ public class AttackState : GroundState
         canStartAnim = false;
         _currentState.Events(_currentState, out AnimancerEvent.Sequence events);
         events.Clear();
-        events.Add(0.5f, SetInterrupt);
+        events.Add(0.6f, SetInterrupt);
         _currentState.Events(_currentState).OnEnd = null;
         _currentState.Events(_currentState).OnEnd += HandleAnimationEnd;
     }
@@ -102,11 +102,11 @@ public class AttackState : GroundState
         {
             float dist = Mathf.Abs(Vector3.Distance(player.target.transform.position, player.transform.position));
 //            Debug.Log(dist);
-            if (dist > minR && dist < minR+range && startMoving)
+            if (dist > minR && dist < minR+range && !canInterruptable)
             {
                // animancer.Animator.applyRootMotion = false;
                 RotateTowardsTarget();
-                //player.KatanaMoveState.SetSpeed();
+                player.KatanaMoveState.SetSpeed();
                 player._controller.MoveTowardsTarget(player.target.position , 8f);
             }
             else if (dist > minR+range)

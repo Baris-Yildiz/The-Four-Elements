@@ -16,9 +16,9 @@ MonoBehaviour:
   effectType: 1
   duration: 15
   effectIcon: {fileID: -52318488, guid: 417630c9494d6d04aad19215d6e5b565, type: 3}
-  attackMultiplier: 1
+  attackMultiplier: 0.5
   defenseMultiplier: 1
-  healthMultiplier: 0.8
+  healthMultiplier: 1
   speedMultiplier: 1
   isRefreshable: 1
   DamageOverTimeAmount: 0

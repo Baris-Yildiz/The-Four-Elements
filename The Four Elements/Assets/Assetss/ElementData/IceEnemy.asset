@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   elementType: 2
   ElementName: Water
-  attackMultiplier: 1.2
+  attackMultiplier: 1
   defenseMultiplier: 0.8
-  healthMultiplier: 10
-  speedMultiplier: 2
+  healthMultiplier: 1.3
+  speedMultiplier: 1
   OnHitEffectDefinition: {fileID: 11400000, guid: d725c66223d8305429bd2b039138c61d, type: 2}

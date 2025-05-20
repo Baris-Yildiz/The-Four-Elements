@@ -34,13 +34,13 @@ public class FallState : AirState
 
     private void ChangeToMove()
     {
-        if (player.IsCombatState)
+        if ((player.IsCombatState && player.GetSwordState()) || !player.IsCombatState)
         {
-            stateMachine.ChangeState(player.KatanaMoveState);
+            stateMachine.ChangeState(player.NonCombatMoveState);
         }
         else
         {
-            stateMachine.ChangeState(player.NonCombatMoveState);
+            stateMachine.ChangeState(player.KatanaMoveState);
         }
     }
 }
