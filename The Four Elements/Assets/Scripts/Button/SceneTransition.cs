@@ -11,7 +11,7 @@ public class SceneTranstion : MonoBehaviour
 
     public void LoadSceneAsync()
     {
-        Debug.Log("dsadasdsa");
+        
         StartCoroutine(LoadYourAsyncScene());
     }
 
@@ -30,13 +30,7 @@ public class SceneTranstion : MonoBehaviour
         // Loop while the scene is not yet loaded
         while (!operation.isDone)
         {
-            // Update progress bar
-            if (progressBar != null)
-            {
-                // operation.progress goes from 0.0 to 0.9. When it reaches 0.9, it means the scene is loaded
-                // but not yet activated.
-                progressBar.value = Mathf.Clamp01(operation.progress / 0.9f);
-            }
+       
 
             // Check if the scene is almost loaded (progress is near 0.9)
             if (operation.progress >= 0.9f)
