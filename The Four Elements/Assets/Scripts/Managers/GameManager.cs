@@ -32,7 +32,30 @@ public class GameManager : MonoBehaviour
 
    private void Death()
    {
-      Time.timeScale = Mathf.Lerp(Time.timeScale, 0f, Time.unscaledTime);
+      StartCoroutine(DeathSequence());
+   }
+   private IEnumerator DeathSequence()
+   {
+      float lerpDuration = 1f; // Adjust to control how fast time slows down
+      float elapsed = 0f;
+      float startScale = Time.timeScale;
+
+      while (elapsed < lerpDuration)
+      {
+         elapsed += Time.unscaledDeltaTime;
+         Time.timeScale = Mathf.Lerp(startScale, 0f, elapsed / lerpDuration);
+         Time.fixedDeltaTime = 0.02f * Time.timeScale;
+         yield return null;
+      }
+
+      Time.timeScale = 0f;
+      Time.fixedDeltaTime = 0f;
+
+      // Enable cursor for menu interaction
+      Cursor.visible = true;
+      Cursor.lockState = CursorLockMode.None;
+
+      // Begin loading the scene after time has fully stopped
       LoadSceneAsync();
    }
 

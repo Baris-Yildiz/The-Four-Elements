@@ -15,8 +15,8 @@ MonoBehaviour:
   EntityTypeName: Player
   BaseElementType: 1
   MaxHealth: 1000
-  BaseAttack: 1000
-  BaseDefense: 20
+  BaseAttack: 500
+  BaseDefense: 2
   BaseSpeed: 5
   FireResistance: 1
   WaterResistance: 1
