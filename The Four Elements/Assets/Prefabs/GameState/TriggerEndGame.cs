@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TriggerEndGame : MonoBehaviour
 {
     public void EndTheGame()
     {
-        GameObject.FindWithTag("Canvas").GetComponentInChildren<Animator>().SetTrigger("EndGame");
-        print("ended game");
+        SceneManager.LoadScene("MainMenu");
     }
 }
