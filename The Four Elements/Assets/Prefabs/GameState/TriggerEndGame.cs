@@ -2,22 +2,9 @@ using UnityEngine;
 
 public class TriggerEndGame : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
-    void Start()
+    public void EndTheGame()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        
-        
+        GameObject.FindWithTag("Canvas").GetComponentInChildren<Animator>().SetTrigger("EndGame");
+        print("ended game");
     }
 }
